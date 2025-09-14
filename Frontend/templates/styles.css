@@ -1,0 +1,316 @@
+/* === Updated Elegant Theme with Responsive Navbar === */
+
+/* Root Variables */
+:root {
+  --bg-gradient: linear-gradient(135deg, #0d1117, #161b22);
+  --bg-card: #21262d;
+  --accent: #58a6ff;
+  --accent-hover: #1f6feb;
+  --text-main: #c9d1d9;
+  --text-muted: #8b949e;
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --radius: 12px;
+  --font-main: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+/* General Styles */
+body {
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-main);
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Navbar Styles */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #161b22;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
+
+nav a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: color 0.3s, background 0.3s;
+}
+
+nav a:hover {
+  color: #fff;
+  background: var(--accent-hover);
+}
+
+body {
+  padding-top: 70px; /* Offset for fixed navbar */
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Profile Section */
+.profile {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 1rem;
+}
+
+.profile h2 {
+  font-size: 1.8rem;
+  color: var(--text-main);
+}
+
+.profile p {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Contact Section */
+.contact form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.contact form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact form label {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.contact form input,
+.contact form textarea {
+  background: #161b22;
+  color: var(--text-main);
+  border: 1px solid #30363d;
+  border-radius: var(--radius);
+  padding: 0.8rem;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.contact form input:focus,
+.contact form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.contact form button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.contact form button:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(31, 111, 235, 0.4);
+}
+
+/* Projects Section */
+.projects ul {
+  list-style: none;
+  padding: 0;
+}
+
+.projects ul li {
+  background: #161b22;
+  color: var(--text-main);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.projects ul li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Skills Section */
+.skills ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skills ul li {
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  color: var(--text-main);
+  display: inline-block;
+  margin: 0.25rem;
+  user-select: none;
+}
+
+.skills ul li:hover,
+.skills ul li:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(88,166,255,0.08), 0 2px 6px rgba(0,0,0,0.6);
+  background: linear-gradient(90deg, rgba(88,166,255,0.08), rgba(31,111,235,0.03));
+  outline: none;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  background: #161b22;
+  color: var(--text-muted);
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+}
+
+/* --- Skill popover --- */
+#skill-popover {
+  position: absolute;
+  max-width: 320px;
+  min-width: 220px;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(180deg, rgba(33,38,45,0.98), rgba(28,32,38,0.98));
+  color: var(--text-main);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(12,17,23,0.6), 0 0 28px rgba(88,166,255,0.06);
+  border: 1px solid rgba(88,166,255,0.06);
+  z-index: 1200;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 160ms ease, transform 160ms ease;
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* hidden by default */
+#skill-popover[aria-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px) scale(0.99);
+}
+
+/* visible state */
+#skill-popover.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* small arrow (optional) */
+#skill-popover::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  top: -6px;
+  filter: drop-shadow(0 -2px 6px rgba(0,0,0,0.4));
+  border-left: 1px solid rgba(88,166,255,0.03);
+  border-top: 1px solid rgba(88,166,255,0.03);
+}
+
+/* adapt arrow when popover is placed below the item */
+#skill-popover[data-below="true"]::after {
+  top: unset;
+  bottom: -6px;
+}
+
+/* responsive: make popover full width on very small screens */
+@media (max-width: 480px) {
+  #skill-popover {
+    position: fixed;
+    left: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    bottom: 18px;
+    max-width: none;
+  }
+}

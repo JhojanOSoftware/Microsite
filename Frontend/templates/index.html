@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Presentacion Ingeniero Jhojan Estiben Ortiz Bautista</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#menu">Menú</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#proximas">Próximas</a>
+    </nav>
+
+    <header id="inicio">
+        <h1>Presentacion Ingeniero Jhojan Estiben Ortiz Bautista</h1>
+    </header>
+
+    <div class="container">
+        <section class="profile" id="menu">
+            <img src="Images/ProfileJhojan.jpg" alt="ProfileJhojan">
+            <h2>Jhojan Estiben Ortiz Bautista</h2>
+            <p>Tecnólogo en Gestión de Redes de Datos y desarrollador de software motivado, con experiencia en Python,  y bases de datos relacionales (MySQL). He trabajado en el desarrollo, implementación y mantemiento de servidores y aplicaciones. Poseo conocimientos sólidos en redes, sistemas operativos Linux (especialmente en las siguientes distribiciones: Ubuntu, Kali, Debian, Arch Linux) y automatización de entornos. Apasionado por el aprendizaje continuo y la creación de soluciones prácticas, me destaco por mi capacidad para resolver problemas complejos, adaptarme a nuevos retos y colaborar eficazmente en equipos multidisciplinarios.</p  >
+        </section>
+
+        <section class="projects" id="proximas">
+            <h2>Proyectos Realizados</h2>
+            <ul>
+                <li>Proyecto 1: Breve descripción del proyecto.</li>
+                <li>Proyecto 2: Breve descripción del proyecto.</li>
+                <li>Proyecto 3: Breve descripción del proyecto.</li>
+            </ul>
+        </section>
+
+        <section class="skills">
+            <h2>Habilidades Técnicas</h2>
+            <ul>
+                <li tabindex="0" role="button" data-desc="Maquetación responsive, accesibilidad, semántica y buenas prácticas con HTML5 y CSS moderno (Flexbox, Grid).">HTML y CSS</li>
+                <li tabindex="0" role="button" data-desc="Programación front-end y back-end, DOM, ES6+, APIs, y frameworks modernos. Experiencia en scripting y automatización.">JavaScript</li>
+                <li tabindex="0" role="button" data-desc="Desarrollo de scripts y aplicaciones, manejo de librerías, automatización y análisis de datos con Python.">Python</li>
+                <li tabindex="0" role="button" data-desc="Control de versiones, flujo de trabajo Git, pull requests, ramas y colaboración en GitHub.">Git y GitHub</li>
+                <li tabindex="0" role="button" data-desc="Diseño y consultas optimizadas, modelado relacional y backups. Experiencia con MySQL y herramientas de administración.">MySQL</li>
+            </ul>
+        </section>
+
+         <section class="contact" id="contacto">
+            <h2>Contacto</h2>
+            <form action="#" method="POST">
+                <div>
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
+                </div>
+                <div>
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Ingresa tu teléfono" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+                </div>
+                <div>
+                    <label for="message">Mensaje:</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn">Enviar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- Skill popover container -->
+    <div id="skill-popover" role="dialog" aria-hidden="true"></div>
+
+    <script src="public/popover.js" defer>
+    
+    </script>
+</body>
+</html>
