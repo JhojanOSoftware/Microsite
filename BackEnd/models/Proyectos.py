@@ -1,27 +1,44 @@
-from pydantic import BaseModel, Field, constr, conint
-from typing import Optional
+from typing import Optional, Annotated
+from pydantic import BaseModel, Field, validator
 
 class Proyectos(BaseModel):
     id: Optional[int] = Field(None, description="ID del proyecto (autogenerado)")
-    nombre: constr(strip_whitespace=True, min_length=1, max_length=100) = Field(..., description="Nombre del proyecto")
-    description: Optional[constr(strip_whitespace=True, max_length=300)] = Field(None, description="Descripción opcional")
-    imagen: conint(ge=100, le=500) = Field(..., description="agrega la ruta de la imagen que se encuentre ubicada en ActividadMicrosite/Frontend/Images")
-    fecha: constr(strip_whitespace=True, min_length=10, max_length=10) = Field(..., description="Fecha en formato YYYY-MM-DD")
-    linkgithub: constr(strip_whitespace=True, min_length=5, max_length=200) = Field(..., description="Link del repositorio en GitHub")
-    linkvideo: Optional[constr(strip_whitespace=True, max_length=200)] = Field(None, description="Link del video del proyecto (opcional)")
+    nombre: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre del proyecto")]
+    description: Optional[Annotated[str, Field(None, max_length=500, description="Descripción opcional")]] = None
+    imagen: Annotated[str, Field(..., min_length=1, max_length=500, description="Ruta relativa o URL de la imagen en Frontend/Images")]
+    fecha: Annotated[str, Field(..., min_length=10, max_length=500, description="Fecha en formato YYYY-MM-DD")]
+    linkgithub: Annotated[str, Field(..., min_length=5, max_length=500, description="Link del repositorio en GitHub")]
+    linkvideo: Optional[Annotated[str, Field(None, max_length=500, description="Link del video del proyecto (opcional)")]] = None
+
+    @validator('*', pre=True)
+    def _strip_strings(cls, v):
+        if isinstance(v, str):
+            return v.strip()
+        return v
 
 class Contactos(BaseModel):
-    id: Optional[int] = Field(None, description="ID del contacto (autogenerado)")
-    nombre: constr(strip_whitespace=True, min_length=1, max_length=100) = Field(..., description="Nombre del contacto")
-    telefono: constr(strip_whitespace=True, min_length=7, max_length=15) = Field(..., description="Número de teléfono del contacto")
-    email: constr(strip_whitespace=True, min_length=5, max_length=100) = Field(..., description="Correo electrónico del contacto")
-    mensaje: constr(strip_whitespace=True, min_length=1, max_length=500) = Field(..., description="Mensaje del contacto")
 
+    nombre: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre del contacto")]
+    telefono: Annotated[str, Field(..., min_length=1, max_length=500, description="Número de teléfono del contacto")]
+    email: Annotated[str, Field(..., min_length=1, max_length=500, description="Correo electrónico del contacto")]
+    mensaje: Optional[Annotated[str, Field(..., min_length=1, max_length=500, description="Mensaje del contacto")]] = None
+
+    @validator('*', pre=True)
+    def _strip_strings_contact(cls, v):
+        if isinstance(v, str):
+            return v.strip()
+        return v
 
 class Map(BaseModel):
-    id: Optional[int] = Field(None, description="ID del lugar (autogenerado)")
-    placename: constr(strip_whitespace=True, min_length=1, max_length=100) = Field(..., description="Nombre del lugar")
-    description: Optional[constr(strip_whitespace=True, max_length=300)] = Field(None, description="Descripción opcional del lugar")
-    latitud: float = Field(..., description="Latitud del lugar")
-    longitud: float = Field(..., description="Longitud del lugar")
-    addresplace: Optional[constr(strip_whitespace=True, max_length=300)] = Field(None, description="Dirección del lugar (opcional)")
+    id: Optional[int] = Field(None, description="ID del mapa (autogenerado)")
+    placename: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre del lugar")]
+    description: Annotated[str, Field(..., min_length=1, max_length=500, description="Descripción del lugar")]
+    latitud: Annotated[str, Field(..., min_length=1, max_length=500, description="Latitud (string)")]
+    longitud: Annotated[str, Field(..., min_length=1, max_length=500, description="Longitud (string)")]
+    addresplace: Annotated[str, Field(..., min_length=1, max_length=500, description="Dirección del lugar")]
+
+    @validator('*', pre=True)
+    def _strip_strings_map(cls, v):
+        if isinstance(v, str):
+            return v.strip()
+        return v

@@ -1,9 +1,24 @@
 import sqlite3
 from BackEnd.models.Proyectos import Contactos, Proyectos, Map
 from fastapi import FastAPI, HTTPException, status  
+from fastapi.middleware.cors import CORSMiddleware
+from typing import List, Dict
+
+
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://localhost:3000", "http://127.0.0.1:8000", "*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.on_event("startup")
+def startup():
+    crear_db()
 
 @app.get("/dbproyects_jo/")
 def crear_db():
@@ -51,8 +66,8 @@ def crear_proyecto(proyecto: Proyectos):
     conn = sqlite3.connect('proyects01_j0.db')
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO proyectos (nombre, imagen, fecha, linkgithub, linkvideo) VALUES (?, ?, ?, ?, ?)
-    ''', (proyecto.nombre, proyecto.imagen, proyecto.fecha, proyecto.linkgithub, proyecto.linkvideo))
+        INSERT INTO proyectos (nombre, imagen, description, fecha, linkgithub, linkvideo) VALUES (?, ?, ?, ?, ?, ?)
+    ''', (proyecto.nombre, proyecto.imagen, proyecto.description, proyecto.fecha, proyecto.linkgithub, proyecto.linkvideo))
     conn.commit()
     conn.close()
     return {
@@ -152,3 +167,5 @@ def delete_map_entry(map_id: int):
     return {
         "message": "Lugar eliminado correctamente"
     }
+
+
