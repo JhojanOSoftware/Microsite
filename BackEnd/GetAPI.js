@@ -8,12 +8,14 @@
     return String(t ?? '').trim();
   }
 
+  
+
   function makeCard(proj) {
     const div = document.createElement('article');
     div.className = 'project-card';
     const title = safeText(proj.nombre);
     const desc = safeText(proj.description) || 'Descripción no disponible.';
-    const imgSrc = safeText(proj.imagen);
+    const imgSrc = resolveImageSrc(proj);
     const github = safeText(proj.linkgithub);
     const video = safeText(proj.linkvideo);
     const fecha = safeText(proj.fecha);
@@ -219,3 +221,78 @@
         if (pop.classList.contains('visible')) hidePopover();
       });
     })();
+/* Render projects as collapsible title-cards */
+(async function renderProjects() {
+  const API = 'http://127.0.0.1:8000/proyectos/'; // ensure trailing slash
+  const container = document.getElementById('projects-list');
+  if (!container) return;
+
+  function safeText(t){ return String(t ?? '').trim(); }
+
+  function makeCard(proj) {
+    const article = document.createElement('article');
+    article.className = 'project-card';
+    article.tabIndex = 0;
+
+    const title = safeText(proj.nombre) || 'Proyecto';
+    const desc = safeText(proj.description) || '';
+    let img = safeText(proj.imagen) || '';
+    if (img && !/^https?:\/\//i.test(img) && !img.startsWith('/')) {
+      // adjust relative path if needed
+      img = `Images/${img}`;
+    }
+    const github = safeText(proj.linkgithub);
+    const video = safeText(proj.linkvideo);
+    const fecha = safeText(proj.fecha);
+
+    article.innerHTML = `
+      <div class="card-header" role="button" aria-expanded="false">
+        <div class="project-title">${title}</div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="card-body" aria-hidden="true">
+        <div class="project-media"><img src="${img}" alt="${title}" onerror="this.src='Images/placeholder.png'"></div>
+        <p class="project-date">${fecha}</p>
+        <p class="project-desc">${desc}</p>
+        <div class="project-actions">
+          ${github ? `<a class="btn-icon" href="${github}" target="_blank" rel="noopener noreferrer" data-label="GitHub">GH</a>` : ''}
+          ${video ? `<a class="btn-icon" href="${video}" target="_blank" rel="noopener noreferrer" data-label="Video">▶</a>` : ''}
+        </div>
+      </div>
+    `;
+    // toggle behavior
+    const header = article.querySelector('.card-header');
+    const body = article.querySelector('.card-body');
+    function setExpanded(exp) {
+      article.classList.toggle('expanded', exp);
+      header.setAttribute('aria-expanded', String(exp));
+      body.setAttribute('aria-hidden', String(!exp));
+    }
+    header.addEventListener('click', () => setExpanded(!article.classList.contains('expanded')));
+    // keyboard toggle
+    article.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setExpanded(!article.classList.contains('expanded'));
+      }
+      if (e.key === 'Escape') setExpanded(false);
+    });
+    return article;
+  }
+
+  try {
+    const res = await fetch(API);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+    const list = Array.isArray(payload) ? payload : (payload.data ?? payload);
+    container.innerHTML = '';
+    if (!list || !list.length) {
+      container.innerHTML = '<p class="muted">No hay proyectos disponibles.</p>';
+      return;
+    }
+    list.forEach(p => container.appendChild(makeCard(p)));
+  } catch (err) {
+    console.error('Error fetching projects:', err);
+    container.innerHTML = '<p class="error">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
+  }
+})();
