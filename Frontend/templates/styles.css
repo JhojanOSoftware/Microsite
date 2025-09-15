@@ -470,3 +470,17 @@ footer {
     max-width: none;
   }
 }
+
+#chat-toggle {
+  width: 60px;
+  height: 60px;
+
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: linear-gradient(135deg, rgba(88,166,255,0.95), rgba(162,89,255,0.9));
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(88,166,255,0.14);
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s;
+}

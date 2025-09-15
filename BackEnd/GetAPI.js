@@ -223,11 +223,25 @@
     })();
 /* Render projects as collapsible title-cards */
 (async function renderProjects() {
-  const API = 'http://127.0.0.1:8000/proyectos/'; // ensure trailing slash
+  const API = 'http://127.0.0.1:8000/proyectos/';
   const container = document.getElementById('projects-list');
   if (!container) return;
 
-  function safeText(t){ return String(t ?? '').trim(); }
+  function safeText(t) { return String(t ?? '').trim(); }
+
+  // Extrae la ruta de imagen relativa y la convierte en una URL usable
+  function resolveImageSrc(proj) {
+    let img = safeText(proj.imagen) || '';
+    // Si la ruta es absoluta (http/https), úsala tal cual
+    if (/^https?:\/\//i.test(img)) return img;
+    // Si la ruta es relativa, asegúrate de que tenga el slash inicial
+    if (img && !img.startsWith('/')) img = '/' + img;
+    // Asume que la imagen está servida desde el mismo host de la API
+    // Si la API sirve archivos estáticos en /media, ajusta aquí:
+    // return 'http://127.0.0.1:8000' + img;
+    // O si ya viene con /media/...:
+    return 'http://127.0.0.1:8000' + img;
+  }
 
   function makeCard(proj) {
     const article = document.createElement('article');
@@ -236,11 +250,7 @@
 
     const title = safeText(proj.nombre) || 'Proyecto';
     const desc = safeText(proj.description) || '';
-    let img = safeText(proj.imagen) || '';
-    if (img && !/^https?:\/\//i.test(img) && !img.startsWith('/')) {
-      // adjust relative path if needed
-      img = `Images/${img}`;
-    }
+    const imgSrc = resolveImageSrc(proj);
     const github = safeText(proj.linkgithub);
     const video = safeText(proj.linkvideo);
     const fecha = safeText(proj.fecha);
@@ -251,7 +261,10 @@
         <div class="chev">▼</div>
       </div>
       <div class="card-body" aria-hidden="true">
-        <div class="project-media"><img src="${img}" alt="${title}" onerror="this.src='Images/placeholder.png'"></div>
+        <div class="project-media">
+          <img src="${imgSrc}" alt="${title}" onerror="this.src='Images/placeholder.png'">
+          <div class="img-path" style="font-size:0.8em;color:#888;margin-top:4px;">${safeText(proj.imagen)}</div>
+        </div>
         <p class="project-date">${fecha}</p>
         <p class="project-desc">${desc}</p>
         <div class="project-actions">
@@ -296,3 +309,34 @@
     container.innerHTML = '<p class="error">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
   }
 })();
+
+// Coordenadas de ejemplo
+        const puntos = [
+            { nombre: "La calera", coords: [4.720237,-73.966441] }, // La calera
+            { nombre: "AeroPuerto el Dorado", coords: [4.691558, -74.134997] },  // AeroPuerto el Dorado
+            { nombre: "Simon Bolivar", coords: [4.656578, -74.095168] }    // París
+        ];
+
+        // Inicializar el mapa centrado en el primer punto
+        const map = L.map('map').setView(puntos[0].coords, 11);
+
+        // Añadir capa base
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Añadir marcadores
+        puntos.forEach(p => {
+            const marker = L.marker(p.coords).addTo(map).bindPopup(p.nombre);
+
+            marker.on('click', function() {
+                map.setView(marker.getLatLng(), 15);
+                map.flyTo(p.coords, 16, { duration: 3.5 });
+            });
+        });
+
+        // Manejar el cambio en el select
+        document.getElementById('selector').addEventListener('change', function() {
+            const idx = this.value;
+            map.setView(puntos[idx].coords, 8);
+        });
