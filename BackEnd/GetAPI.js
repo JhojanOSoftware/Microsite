@@ -338,5 +338,8 @@
         // Manejar el cambio en el select
         document.getElementById('selector').addEventListener('change', function() {
             const idx = this.value;
-            map.setView(puntos[idx].coords, 8);
+            map.setView(puntos[idx].coords, 15);
         });
+
+
+/// Funcionamiento del chat

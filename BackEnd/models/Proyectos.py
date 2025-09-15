@@ -45,3 +45,4 @@ class Map(BaseModel):
         if isinstance(v, str):
             return v.strip()
         return v
+    

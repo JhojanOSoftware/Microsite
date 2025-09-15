@@ -1,13 +1,27 @@
 import sqlite3
 import traceback
 from typing import List, Dict, Optional
-
-from fastapi import FastAPI, HTTPException, status
+from xmlrpc import client
+from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException, status, Form, Request, Query
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from openai  import OpenAI 
+from BackEnd.models.Proyectos import Proyectos, Contactos, Map  
+limiter = Limiter(key_func=get_remote_address)
 
-from BackEnd.models.Proyectos import Proyectos, Contactos, Map
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+  api_key="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",
+)
 
+# Inicializar la app de FastAPI
 app = FastAPI(title="Actividad Microsite API")
+
+
+# Aplicar el limiter a la app (opcional, para tenerlo disponible globalmente)
+app.state.limiter = limiter
 
 # Ajusta orígenes según donde sirvas el frontend
 app.add_middleware(
@@ -236,5 +250,115 @@ def delete_map_entry(map_id: int):
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Error eliminando lugar: {e}")
+    
+@app.post("/sgn")
+async def obtener_significado(nombre: str = Form(...)):
+    try:
+        respuesta = client.chat.completions.create(
+            extra_headers={
+                "HTTP-Referer": "", # Optional. Site URL for rankings on openrouter.ai.
+                "X-Title": "", # Optional. Site title for rankings on openrouter.ai.
+            },
+            model="gpt-oss-20b:free",
+            messages=[
+                {"role": "system", "content": "Eres un experto en etimología de nombres."},
+                {"role": "user", "content": f"¿Cuál es el significado del nombre {nombre}?"}
+            ]
+        )
 
+        significado = respuesta.choices[0].message.content.strip()
+        return JSONResponse(content={
+            "nombre": nombre,
+            "significado": significado
+        })
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+@app.post("/feeling")
+async def analizar_sentimiento(mensaje: str = Form(...)):
+    try:
+        respuesta = client.chat.completions.create(
+            extra_headers={
+                "HTTP-Referer": "",
+                "X-Title": "",
+            },
+            model="gpt-oss-20b:free",
+            messages=[
+                {"role": "system", "content": "Eres un experto en análisis de sentimientos. Analiza el siguiente mensaje y responde únicamente con una de estas etiquetas: positivo, negativo o neutro."},
+                {"role": "user", "content": f"Analiza el sentimiento del siguiente mensaje: '{mensaje}'"}
+            ]
+        )
+        sentimiento = respuesta.choices[0].message.content.strip().lower()
+        if sentimiento not in ["positivo", "negativo", "neutro"]:
+            sentimiento = "neutro"
+        return JSONResponse(content={
+            "mensaje": mensaje,
+            "sentimiento": sentimiento
+        })
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+    
 
+@app.post("/curriculumanalisis")
+async def analizar_pregunta(mensaje: str = Form(...)):
+    # Prompt fijo con la información del CV
+    system_prompt = """
+    Eres un asistente especializado en analizar hojas de vida. Basa tus respuestas ÚNICAMENTE en la información proporcionada.
+
+    INFORMACIÓN DEL CANDIDATO - JHOJAN ESTIBEN ORTIZ BAUTISTA:
+
+    **EXPERIENCIA LABORAL:**
+    1. TELEFÓNICA | MOVISTAR (Enero 2024 - Julio 2025)
+       - Cargo: Desarrollador Python
+       - Duración: 1.5 años (18 meses)
+       - Proyecto principal: "Telefonica Automatización Permisos"
+       - Logros: Mejoró eficiencia operativa en 25%, redujo errores en 40%
+    
+    2. KM2SOLUTIONS | MOVISTAR (Julio 2024 - Presente)
+       - Cargo: Agente Bilingüe
+       - Duración: Hasta la fecha actual
+       - Funciones: Soporte al cliente en inglés para institución bancaria
+
+    **EDUCACIÓN:**
+    - Technologist in Data Network Management - SENA (Graduación: Julio 18, 2024)
+    - Certificaciones: Scrum Fundamentals, RED HAT RH124, Cisco Cybersecurity, Python Essentials
+    - Idiomas: Español (Nativo), Inglés (C1), Alemán (A1)
+
+    **HABILIDADES TÉCNICAS:**
+    - Lenguajes de programación: Python, SQL, JavaScript, Java
+    - Bases de datos: MySQL, Oracle
+    - Frameworks: Flask, React, Node.js
+    - DevOps: Ubuntu Server, Bash, Wireshark, Nmap, Port Forwarding
+    - Cybersecurity: Hashcat, Fail2Ban
+
+    **PROYECTOS DESTACADOS:**
+    - Automatización de servidores Linux y tareas DevOps
+    - Permisos de automatización de Telefónica (Python, MySQL, Excel)
+
+    **INSTRUCCIONES IMPORTANTES:**
+    - Responde ÚNICAMENTE basado en la información proporcionada
+    - Si la información no está disponible, indica "No tengo esa información en la hoja de vida"
+    - Sé preciso con fechas y duraciones
+    - Mantén las respuestas concisas y relevantes
+    - No inventes información que no esté en el CV
+    """
+    try:
+        respuesta = client.chat.completions.create(
+            extra_headers={
+                "HTTP-Referer": "",
+                "X-Title": "",
+            },
+            model="gpt-oss-20b:free",
+            messages=[
+                {"role": "system", "content": f"{system_prompt}"},
+                {"role": "user", "content": f"En base a la informacion proporcionada dando unicamente respuestas cortas y directas, '{mensaje}'"}
+            ]
+        )
+        respuesta_texto = respuesta.choices[0].message.content.strip()
+        return JSONResponse(content={
+            "pregunta": mensaje,
+            "respuesta": respuesta_texto
+        })
+    except Exception as e:
+        error_message = f"Error procesando pregunta: {str(e)}"
+        raise HTTPException(status_code=500, detail=error_message)
