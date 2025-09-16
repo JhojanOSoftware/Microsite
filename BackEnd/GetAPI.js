@@ -342,4 +342,99 @@
         });
 
 
-/// Funcionamiento del chat
+/* --- Chat integration: UI behavior + POST to backend Chat endpoint --- */
+(function initChat() {
+  const toggle = document.getElementById('chatbot-toggle') || document.querySelector('.chatbot-toggler');
+  const widget = document.getElementById('chatbot');
+  const closeBtn = document.getElementById('chatbot-close');
+  const sendBtn = document.getElementById('chat-send');
+  const input = document.getElementById('chat-input');
+  const messages = document.getElementById('chat-messages');
+
+  if (!toggle || !widget || !sendBtn || !input || !messages) return;
+
+  function append(text, who = 'bot') {
+    const d = document.createElement('div');
+    d.className = 'message ' + (who === 'user' ? 'user' : 'bot');
+    d.textContent = text;
+    messages.appendChild(d);
+    messages.scrollTop = messages.scrollHeight;
+    return d;
+  }
+
+  function setOpen(open) {
+    widget.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (open) input.focus();
+  }
+
+  toggle.addEventListener('click', () => {
+    const hidden = widget.getAttribute('aria-hidden') === 'true';
+    setOpen(hidden);
+  });
+  if (closeBtn) closeBtn.addEventListener('click', () => setOpen(false));
+
+  async function sendToBackend(text) {
+    // primary: send as form (compat with existing backend that expects "nombre")
+    const url = 'http://127.0.0.1:8000/Chat';
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+        body: new URLSearchParams({ nombre: text })
+      });
+      const ct = res.headers.get('content-type') || '';
+      if (!res.ok) {
+        // try to parse error body
+        let body = await res.text();
+        try { body = JSON.parse(body); } catch {}
+        throw new Error(body && (body.detail || body.error || JSON.stringify(body)) || `HTTP ${res.status}`);
+      }
+      if (ct.includes('application/json')) {
+        const j = await res.json();
+        // try common keys
+        return j.significado ?? j.answer ?? j.result ?? j.message ?? JSON.stringify(j);
+      } else {
+        return await res.text();
+      }
+    } catch (err) {
+      // fallback: try JSON body if form failed
+      try {
+        const res2 = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const j2 = await res2.json();
+        return j2.significado ?? j2.answer ?? j2.result ?? j2.message ?? JSON.stringify(j2);
+      } catch (err2) {
+        throw err; // original error
+      }
+    }
+  }
+
+  async function handleSend() {
+    const text = input.value.trim();
+    if (!text) return;
+    append(text, 'user');
+    input.value = '';
+    input.disabled = true;
+    const typing = append('Escribiendo...', 'bot');
+
+    try {
+      const reply = await sendToBackend(text);
+      typing.textContent = String(reply);
+    } catch (err) {
+      console.error('Chat error:', err);
+      typing.textContent = 'Error al contactar el servidor. Revisa la consola.';
+    } finally {
+      input.disabled = false;
+      input.focus();
+      messages.scrollTop = messages.scrollHeight;
+    }
+  }
+
+  sendBtn.addEventListener('click', handleSend);
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
+  });
+})();

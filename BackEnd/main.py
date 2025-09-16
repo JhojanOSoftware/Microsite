@@ -1,6 +1,5 @@
 import sqlite3
 import traceback
-from typing import List, Dict, Optional
 from xmlrpc import client
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI, HTTPException, status, Form, Request, Query
@@ -11,9 +10,15 @@ from openai  import OpenAI
 from BackEnd.models.Proyectos import Proyectos, Contactos, Map  
 limiter = Limiter(key_func=get_remote_address)
 
+
 client = OpenAI(
-  base_url="https://openrouter.ai/api/v1",
-  api_key="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",
+    base_url="https://openrouter.ai/api/v1",
+    api_key="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",
+    default_headers={
+        "HTTP-Referer": "http://localhost:8000",
+        "X-Title": "Actividad Microsite API",
+        "Authorization": f"Bearer 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"
+    }
 )
 
 # Inicializar la app de FastAPI
@@ -233,25 +238,28 @@ def list_map():
         raise HTTPException(status_code=500, detail=f"Error listando lugares: {e}")
 
 
-@app.delete("/mapas/{map_id}")
-def delete_map_entry(map_id: int):
-    try:
-        conn = get_conn()
-        cur = conn.cursor()
-        cur.execute("DELETE FROM mapas WHERE id = ?", (map_id,))
-        conn.commit()
-        affected = cur.rowcount
-        conn.close()
-        if affected == 0:
-            raise HTTPException(status_code=404, detail="Lugar no encontrado")
-        return {"message": "Lugar eliminado correctamente"}
-    except HTTPException:
-        raise
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"Error eliminando lugar: {e}")
+#@app.delete("/mapas/{map_id}")
+#def delete_map_entry(map_id: int):
+#    try:
+#        conn = get_conn()
+#        cur = conn.cursor()
+#        cur.execute("DELETE FROM mapas WHERE id = ?", (map_id,))
+#        conn.commit()
+#        affected = cur.rowcount
+#        conn.close()
+#        if affected == 0:
+#            raise HTTPException(status_code=404, detail="Lugar no encontrado")
+#        return {"message": "Lugar eliminado correctamente"}
+#    except HTTPException:
+#        raise
+#    except Exception as e:
+#        traceback.print_exc()
+#        raise HTTPException(status_code=500, detail=f"Error eliminando lugar: {e}")
     
-@app.post("/sgn")
+    
+    
+
+@app.post("/Chat")
 async def obtener_significado(nombre: str = Form(...)):
     try:
         respuesta = client.chat.completions.create(
@@ -261,104 +269,15 @@ async def obtener_significado(nombre: str = Form(...)):
             },
             model="gpt-oss-20b:free",
             messages=[
-                {"role": "system", "content": "Eres un experto en etimología de nombres."},
-                {"role": "user", "content": f"¿Cuál es el significado del nombre {nombre}?"}
+                {"role": "system", "content": "Eres un chat inteligente que ayuda a encontrar las mejores comidas típicas en una ciudad."},
+                {"role": "user", "content": f"¿Qué tipo de comida me recomiendas en {nombre}?"}
             ]
         )
 
         significado = respuesta.choices[0].message.content.strip()
         return JSONResponse(content={
-            "nombre": nombre,
+            "pregunta": nombre,
             "significado": significado
         })
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
-    
-@app.post("/feeling")
-async def analizar_sentimiento(mensaje: str = Form(...)):
-    try:
-        respuesta = client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": "",
-                "X-Title": "",
-            },
-            model="gpt-oss-20b:free",
-            messages=[
-                {"role": "system", "content": "Eres un experto en análisis de sentimientos. Analiza el siguiente mensaje y responde únicamente con una de estas etiquetas: positivo, negativo o neutro."},
-                {"role": "user", "content": f"Analiza el sentimiento del siguiente mensaje: '{mensaje}'"}
-            ]
-        )
-        sentimiento = respuesta.choices[0].message.content.strip().lower()
-        if sentimiento not in ["positivo", "negativo", "neutro"]:
-            sentimiento = "neutro"
-        return JSONResponse(content={
-            "mensaje": mensaje,
-            "sentimiento": sentimiento
-        })
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
-    
-
-@app.post("/curriculumanalisis")
-async def analizar_pregunta(mensaje: str = Form(...)):
-    # Prompt fijo con la información del CV
-    system_prompt = """
-    Eres un asistente especializado en analizar hojas de vida. Basa tus respuestas ÚNICAMENTE en la información proporcionada.
-
-    INFORMACIÓN DEL CANDIDATO - JHOJAN ESTIBEN ORTIZ BAUTISTA:
-
-    **EXPERIENCIA LABORAL:**
-    1. TELEFÓNICA | MOVISTAR (Enero 2024 - Julio 2025)
-       - Cargo: Desarrollador Python
-       - Duración: 1.5 años (18 meses)
-       - Proyecto principal: "Telefonica Automatización Permisos"
-       - Logros: Mejoró eficiencia operativa en 25%, redujo errores en 40%
-    
-    2. KM2SOLUTIONS | MOVISTAR (Julio 2024 - Presente)
-       - Cargo: Agente Bilingüe
-       - Duración: Hasta la fecha actual
-       - Funciones: Soporte al cliente en inglés para institución bancaria
-
-    **EDUCACIÓN:**
-    - Technologist in Data Network Management - SENA (Graduación: Julio 18, 2024)
-    - Certificaciones: Scrum Fundamentals, RED HAT RH124, Cisco Cybersecurity, Python Essentials
-    - Idiomas: Español (Nativo), Inglés (C1), Alemán (A1)
-
-    **HABILIDADES TÉCNICAS:**
-    - Lenguajes de programación: Python, SQL, JavaScript, Java
-    - Bases de datos: MySQL, Oracle
-    - Frameworks: Flask, React, Node.js
-    - DevOps: Ubuntu Server, Bash, Wireshark, Nmap, Port Forwarding
-    - Cybersecurity: Hashcat, Fail2Ban
-
-    **PROYECTOS DESTACADOS:**
-    - Automatización de servidores Linux y tareas DevOps
-    - Permisos de automatización de Telefónica (Python, MySQL, Excel)
-
-    **INSTRUCCIONES IMPORTANTES:**
-    - Responde ÚNICAMENTE basado en la información proporcionada
-    - Si la información no está disponible, indica "No tengo esa información en la hoja de vida"
-    - Sé preciso con fechas y duraciones
-    - Mantén las respuestas concisas y relevantes
-    - No inventes información que no esté en el CV
-    """
-    try:
-        respuesta = client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": "",
-                "X-Title": "",
-            },
-            model="gpt-oss-20b:free",
-            messages=[
-                {"role": "system", "content": f"{system_prompt}"},
-                {"role": "user", "content": f"En base a la informacion proporcionada dando unicamente respuestas cortas y directas, '{mensaje}'"}
-            ]
-        )
-        respuesta_texto = respuesta.choices[0].message.content.strip()
-        return JSONResponse(content={
-            "pregunta": mensaje,
-            "respuesta": respuesta_texto
-        })
-    except Exception as e:
-        error_message = f"Error procesando pregunta: {str(e)}"
-        raise HTTPException(status_code=500, detail=error_message)

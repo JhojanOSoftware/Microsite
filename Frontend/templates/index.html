@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -84,19 +84,24 @@
     <div id="skill-popover" role="dialog" aria-hidden="true"></div>
 
     <!-- Floating chat widget -->
-    <button id="chat-toggle" aria-label="Abrir chat" title="Chat">💬</button>
-    <aside id="chat-widget" aria-hidden="true" role="dialog" aria-label="Chat de soporte">
-      <header class="chat-header">
-        <strong>Asistente</strong>
-        <button id="chat-close" aria-label="Cerrar chat">×</button>
-      </header>
-      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
-      <form id="chat-form" class="chat-form" autocomplete="off">
-        <input id="chat-input" name="message" type="text" placeholder="Escribe un mensaje..." required />
-        <button type="submit">Enviar</button>
-      </form>
-    </aside>
-    <script>
+    <button id="chatbot-toggle" class="chatbot-toggler" aria-label="Abrir chat" title="Chat">💬</button>
+
+<aside id="chatbot" class="chatbot" aria-hidden="true" role="dialog" aria-label="Chat de soporte">
+  <header class="chatbot-header">
+    <strong>Asistente</strong>
+    <button id="chatbot-close" aria-label="Cerrar chat">×</button>
+  </header>
+
+  <div id="chat-messages" class="messages" role="log" aria-live="polite">
+    <div class="message bot">👋 Hola, puedo responder preguntas sobre los proyectos. Escribe algo abajo.</div>
+  </div>
+
+  <div class="input-box">
+    <input id="chat-input" name="message" type="text" placeholder="Escribe un mensaje..." />
+    <!-- botón tipo button para que no haga submit del form -->
+    <button id="chat-send" type="button">➤</button>
+  </div>
+</aside>    <script>
       const chatToggle = document.getElementById('chat-toggle');
       const chatWidget = document.getElementById('chat-widget');
       const chatClose = document.getElementById('chat-close');
