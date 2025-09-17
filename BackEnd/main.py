@@ -7,8 +7,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from openai  import OpenAI 
-from BackEnd.models.Proyectos import Proyectos, Contactos, Map  
+from BackEnd.models.Proyectos import Proyectos, Contactos, Map ,Coffee
 limiter = Limiter(key_func=get_remote_address)
+from fastapi.staticfiles import StaticFiles
+import os
+
 
 
 client = OpenAI(
@@ -28,6 +31,11 @@ app = FastAPI(title="Actividad Microsite API")
 # Aplicar el limiter a la app (opcional, para tenerlo disponible globalmente)
 app.state.limiter = limiter
 
+# 🔹 Ruta absoluta a tu carpeta de imágenes
+images_path = os.path.join(os.getcwd(), "Frontend", "Images")
+
+# 🔹 Montar la carpeta como estático
+app.mount("/images", StaticFiles(directory=images_path), name="images")
 # Ajusta orígenes según donde sirvas el frontend
 app.add_middleware(
     CORSMiddleware,
@@ -79,6 +87,15 @@ def ensure_db() -> None:
             addresplace TEXT NOT NULL
         )
     """)
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS coffee (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            coffee_type TEXT NOT NULL,
+            coffe_image INTEGER NOT NULL,
+            description TEXT NOT NULL,
+            video TEXT NOT NULL
+        )
+    """)
     conn.commit()
     conn.close()
 
@@ -86,6 +103,7 @@ def ensure_db() -> None:
 @app.on_event("startup")
 def startup():
     ensure_db()
+    
 
 
 @app.get("/dbproyects_jo/")
@@ -206,6 +224,7 @@ def delete_contacto(contacto_id: int):
 
 
 @app.post("/mapas/", status_code=status.HTTP_201_CREATED)
+
 def createnode(map: Map):
     try:
         conn = get_conn()
@@ -228,7 +247,7 @@ def list_map():
     try:
         conn = get_conn()
         cur = conn.cursor()
-        cur.execute("SELECT id, placename, description, latitud, longitud, addresplace FROM mapas ORDER BY id DESC")
+        cur.execute("SELECT id, placename, description, latitud, longitud, addresplace,score FROM mapas ORDER BY id DESC")
         rows = cur.fetchall()
         conn.close()
         data = [dict(r) for r in rows]
@@ -238,23 +257,23 @@ def list_map():
         raise HTTPException(status_code=500, detail=f"Error listando lugares: {e}")
 
 
-#@app.delete("/mapas/{map_id}")
-#def delete_map_entry(map_id: int):
-#    try:
-#        conn = get_conn()
-#        cur = conn.cursor()
-#        cur.execute("DELETE FROM mapas WHERE id = ?", (map_id,))
-#        conn.commit()
-#        affected = cur.rowcount
-#        conn.close()
-#        if affected == 0:
-#            raise HTTPException(status_code=404, detail="Lugar no encontrado")
-#        return {"message": "Lugar eliminado correctamente"}
-#    except HTTPException:
-#        raise
-#    except Exception as e:
-#        traceback.print_exc()
-#        raise HTTPException(status_code=500, detail=f"Error eliminando lugar: {e}")
+@app.delete("/mapas/{map_id}")
+def delete_map_entry(map_id: int):
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM mapas WHERE id = ?", (map_id,))
+        conn.commit()
+        affected = cur.rowcount
+        conn.close()
+        if affected == 0:
+            raise HTTPException(status_code=404, detail="Lugar no encontrado")
+        return {"message": "Lugar eliminado correctamente"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Error eliminando lugar: {e}")
     
     
     
@@ -281,3 +300,51 @@ async def obtener_significado(nombre: str = Form(...)):
         })
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@app.get("/coffee/")
+def list_coffee():
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT id, coffee_type, coffe_image, description, video FROM coffee ORDER BY id DESC")
+        rows = cur.fetchall()
+        conn.close()
+        data = [dict(r) for r in rows]
+        return {"message": "Lista de lugares", "data": data}
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Error listando lugares: {e}")
+    
+@app.post("/coffee/", status_code=status.HTTP_201_CREATED)
+def create_coffee(coffee: Coffee):
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO coffee (coffee_type, coffe_image, description, video) VALUES (?, ?, ?, ?)",
+            (coffee.coffee_type, coffee.coffee_image, coffee.description, coffee.video)
+        )
+        conn.commit()
+        new_id = cur.lastrowid
+        conn.close()
+        return {"message": "Café creado correctamente", "id": new_id, "data": coffee.dict()}
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Error creando café: {e}")
+@app.delete("/coffee/{coffee_id}")
+def delete_coffee(coffee_id: int):          
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM coffee WHERE id = ?", (coffee_id,))
+        conn.commit()
+        affected = cur.rowcount
+        conn.close()
+        if affected == 0:
+            raise HTTPException(status_code=404, detail="Café no encontrado")
+        return {"message": "Café eliminado correctamente"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Error eliminando café: {e}")

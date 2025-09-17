@@ -1,4 +1,3 @@
-!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +17,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#menu">Menú</a>
         <a href="#contacto">Contacto</a>
-        <a href="#proximas">Próximas</a>
+        <a href="#cofetime">Coffetime</a>
     </nav>
 
     <header id="inicio">
@@ -47,6 +46,17 @@
                 <li tabindex="0" role="button" data-desc="Diseño y consultas optimizadas, modelado relacional y backups. Experiencia con MySQL y herramientas de administración.">MySQL</li>
             </ul>
         </section>
+       
+        
+        <section id="cofetime" class="map-section" aria-label="Mapa de lugares para tomar cafe en bogota">
+            <h2>CoffeBreak</h2>
+            <p>Si te estabas preguntando donde tomar un buen café en Bogotá, aquí tienes algunas opciones:</p>
+            <div id="map" class="map" role="application" aria-label="Mapa interactivo"></div>
+        </section>
+           <section class="Coffeclass" id="coffeid">
+            <h2>Clases de Café</h2>
+              <div id="coffeid1" class="coffe-grid" aria-live="polite"></div>
+        </section>
 
          <section class="contact" id="contacto">
             <h2>Contacto</h2>
@@ -72,13 +82,9 @@
                 </div>
             </form>
         </section>
-        <!-- Contact section ends here -->
-        <!-- Insert map below contact -->
-        <section class="map-section" aria-label="Mapa de ubicación">
-            <h2>Ubicación</h2>
-            <div id="map" class="map" role="application" aria-label="Mapa interactivo"></div>
-        </section>
+  
     </div>
+    
 
     <!-- Skill popover container -->
     <div id="skill-popover" role="dialog" aria-hidden="true"></div>
@@ -88,12 +94,12 @@
 
 <aside id="chatbot" class="chatbot" aria-hidden="true" role="dialog" aria-label="Chat de soporte">
   <header class="chatbot-header">
-    <strong>Asistente</strong>
+    <strong>Descubre el mundo mediante la comida</strong>
     <button id="chatbot-close" aria-label="Cerrar chat">×</button>
   </header>
 
   <div id="chat-messages" class="messages" role="log" aria-live="polite">
-    <div class="message bot">👋 Hola, puedo responder preguntas sobre los proyectos. Escribe algo abajo.</div>
+    <div class="message bot">Hola, puedo responder preguntas sobre las comidas tipicas de una ciudad. Escribe abajo tu cuidad :)</div>
   </div>
 
   <div class="input-box">
@@ -101,7 +107,8 @@
     <!-- botón tipo button para que no haga submit del form -->
     <button id="chat-send" type="button">➤</button>
   </div>
-</aside>    <script>
+</aside>  
+  <script>
       const chatToggle = document.getElementById('chat-toggle');
       const chatWidget = document.getElementById('chat-widget');
       const chatClose = document.getElementById('chat-close');
@@ -121,11 +128,7 @@
     </script>
 
     <!-- Leaflet JS -->
-   <select id="selector">
-        <option value="0">La calera</option>
-        <option value="1">Punto B</option>
-        <option value="2">Punto C</option>
-    </select>
+  
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 

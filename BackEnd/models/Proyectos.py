@@ -46,3 +46,14 @@ class Map(BaseModel):
             return v.strip()
         return v
     
+class Coffee(BaseModel):
+    id: Optional[int] = Field(None, description="ID del tipo de café (autogenerado)")
+    coffee_type: Annotated[str, Field(..., min_length=1, max_length=150, description="Tipo de café")]
+    coffee_image: Annotated[str, Field(..., min_length=1, max_length=1000, description="Ruta relativa o URL de la imagen en Frontend/Images")]
+    description: Annotated[str, Field(..., min_length=1, max_length=400, description="Descripción del tipo de café")]
+    video: Annotated[str, Field(..., min_length=5, max_length=1000, description="Link del video del tipo de café")] 
+    @validator('*', pre=True)
+    def _strip_strings_map(cls, v):
+            if isinstance(v, str):
+                return v.strip()
+            return v

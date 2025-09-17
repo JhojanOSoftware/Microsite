@@ -8,7 +8,13 @@
     return String(t ?? '').trim();
   }
 
-  
+  // resuelve las imagenes dentro del html
+function resolveImageSrc(proj) {
+  let img = safeText(proj.imagen) || '';
+  if (/^https?:\/\//i.test(img)) return img;
+  return 'http://127.0.0.1:8000/images/' + img;  // 🔹 asegúrate que arme la URL completa
+}
+
 
   function makeCard(proj) {
     const div = document.createElement('article');
@@ -41,7 +47,6 @@
     const res = await fetch(API);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
-    // backend returns {"message": "...", "data": [...]}
     const list = Array.isArray(payload) ? payload : payload.data ?? [];
     container.innerHTML = '';
     if (!list.length) {
@@ -54,6 +59,7 @@
     container.innerHTML = '<p class="error">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
   }
 })();
+
 (async function AgregarContact() {
   const wrapper = document.getElementById('contacto');
   if (!wrapper) return;
@@ -229,20 +235,20 @@
 
   function safeText(t) { return String(t ?? '').trim(); }
 
-  // Extrae la ruta de imagen relativa y la convierte en una URL usable
-  function resolveImageSrc(proj) {
-    let img = safeText(proj.imagen) || '';
-    // Si la ruta es absoluta (http/https), úsala tal cual
-    if (/^https?:\/\//i.test(img)) return img;
-    // Si la ruta es relativa, asegúrate de que tenga el slash inicial
-    if (img && !img.startsWith('/')) img = '/' + img;
-    // Asume que la imagen está servida desde el mismo host de la API
-    // Si la API sirve archivos estáticos en /media, ajusta aquí:
-    // return 'http://127.0.0.1:8000' + img;
-    // O si ya viene con /media/...:
-    return 'http://127.0.0.1:8000' + img;
-  }
+// Resolve image URL -> Always return a usable URL
+function resolveImageSrc(proj) {
+  const img = safeText(proj.imagen || proj.imagen_url || proj.image) || '';
 
+  // Empty -> placeholder (ruta relativa dentro de tu frontend)
+  if (!img) return 'Images/placeholder.png';
+
+  // Si ya es absoluta, la devolvemos tal cual
+  if (/^https?:\/\//i.test(img)) return img;
+
+  // Normalize: remove leading slashes and build the URL that FastAPI sirve
+  const filename = img.replace(/^\/+/, '');                     // "weakpass.png"
+  return `http://127.0.0.1:8000/images/${filename}`;            // http://127.0.0.1:8000/images/weakpass.png
+}
   function makeCard(proj) {
     const article = document.createElement('article');
     article.className = 'project-card';
@@ -309,37 +315,77 @@
     container.innerHTML = '<p class="error">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
   }
 })();
+(async function loadMapas() {
+  const API = "http://127.0.0.1:8000/mapas/"; // tu endpoint FastAPI
+  
 
-// Coordenadas de ejemplo
-        const puntos = [
-            { nombre: "La calera", coords: [4.720237,-73.966441] }, // La calera
-            { nombre: "AeroPuerto el Dorado", coords: [4.691558, -74.134997] },  // AeroPuerto el Dorado
-            { nombre: "Simon Bolivar", coords: [4.656578, -74.095168] }    // París
-        ];
 
-        // Inicializar el mapa centrado en el primer punto
-        const map = L.map('map').setView(puntos[0].coords, 11);
+  try {
+    // 1. Llamar a la API
+    const res = await fetch(API);
+    if (!res.ok) throw new Error("Error HTTP " + res.status);
+    const payload = await res.json();
+    const lugares = payload.data ?? [];
 
-        // Añadir capa base
+
+    
+    // 2. Crear mapa
+    const mapitas = L.map("map").setView([lugares[0].latitud, lugares[0].longitud], 11);
+
+    // 3. Capa base
+    // Añadir capa base
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        }).addTo(mapitas);
 
-        // Añadir marcadores
-        puntos.forEach(p => {
-            const marker = L.marker(p.coords).addTo(map).bindPopup(p.nombre);
+    
 
-            marker.on('click', function() {
-                map.setView(marker.getLatLng(), 15);
-                map.flyTo(p.coords, 16, { duration: 3.5 });
-            });
+   // 5. Añadir marcadores al mapa
+    const markers = [];
+    lugares.forEach((lugar) => {
+      const lat = parseFloat(lugar.latitud);
+      const lon = parseFloat(lugar.longitud);
+
+      const marker = L.marker([lat, lon]).addTo(mapitas);
+
+      marker.bindPopup(`
+        <b>${lugar.placename}</b><br>
+        ${lugar.description}<br>
+        <small><i>${lugar.addresplace}</i></small><br>
+        ⭐ Puntaje: ${lugar.score ?? "N/A"}<br>
+      `);
+
+      marker.on("click", function () {
+        // acercamiento suave al marcador
+        mapitas.flyTo(marker.getLatLng(), 17, {
+          animate: true,
+          duration: 5 // duración en segundos (ajusta a tu gusto: 3 = rápido, 5+ = más lento)
         });
 
-        // Manejar el cambio en el select
-        document.getElementById('selector').addEventListener('change', function() {
-            const idx = this.value;
-            map.setView(puntos[idx].coords, 15);
-        });
+        // abrir popup al llegar
+        marker.openPopup();
+      });
+
+      markers.push(marker);
+    });
+
+    // 6. Cambiar vista con el selector
+    selector.addEventListener("change", (e) => {
+      const idx = parseInt(e.target.value, 10);
+      const lugar = lugares[idx];
+      const lat = parseFloat(lugar.latitud);
+      const lon = parseFloat(lugar.longitud);
+
+      map.setView([lat, lon], 15);
+      markers[idx].openPopup();
+    });
+  } catch (err) {
+    console.error("Error cargando mapas:", err);
+  }
+})();
+
+
+
 
 
 /* --- Chat integration: UI behavior + POST to backend Chat endpoint --- */
@@ -437,4 +483,59 @@
   input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); handleSend(); }
   });
+})();
+(async function () {
+  const API = 'http://127.0.0.1:8000/coffee/'; // tu endpoint FastAPI
+  const container = document.getElementById('coffeid1'); // el div en tu HTML
+  if (!container) return;
+
+  function safeText(t) {
+    return String(t ?? '').trim();
+  }
+
+  // resolver la ruta de la imagen
+  function resolveImageSrc(cafe) {
+    let img = safeText(cafe.coffe_image) || '';
+    if (/^https?:\/\//i.test(img)) return img; 
+    return 'http://127.0.0.1:8000/images/' + img; // carpeta donde montaste las imágenes
+  }
+
+  function makeCard(cafe) {
+    const div = document.createElement('article');
+    div.className = 'coffe-card';
+    const title = safeText(cafe.coffee_type);
+    const desc = safeText(cafe.description) || 'Descripción no disponible.';
+    const imgSrc = resolveImageSrc(cafe);
+    const video = safeText(cafe.video);
+
+    div.innerHTML = `
+      <div class="coffe-media">
+        <img loading="lazy" src="${imgSrc}" alt="${title}" onerror="this.src='Images/placeholder.png'">
+      </div>
+      <div class="coffe-body">
+        <h3>${title}</h3>
+        <p class="coffe-desc">${desc}</p>
+        <div class="coffe-actions">
+          ${video ? `<a class="btn btn-ghost" href="${video}" target="_blank" rel="noopener noreferrer">Ver Video</a>` : ''}
+        </div>
+      </div>
+    `;
+    return div;
+  }
+
+  try {
+    const res = await fetch(API);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+    const list = Array.isArray(payload) ? payload : payload.data ?? [];
+    container.innerHTML = '';
+    if (!list.length) {
+      container.innerHTML = '<p class="muted">No hay cafés disponibles.</p>';
+      return;
+    }
+    list.forEach(c => container.appendChild(makeCard(c)));
+  } catch (err) {
+    console.error('Error fetching coffee:', err);
+    container.innerHTML = '<p class="error">Error cargando cafés. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
+  }
 })();
