@@ -2,7 +2,7 @@ import sqlite3
 import traceback
 from xmlrpc import client
 from fastapi.responses import JSONResponse
-from fastapi import FastAPI, HTTPException, status, Form, Request, Query
+from fastapi import FastAPI, HTTPException, status, Form, Request, Query,Body
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -16,11 +16,11 @@ import os
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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",
+    api_key="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",
     default_headers={
         "HTTP-Referer": "http://localhost:8000",
         "X-Title": "Actividad Microsite API",
-        "Authorization": f"Bearer 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"
+        "Authorization": f"Bearer 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"
     }
 )
 
@@ -45,7 +45,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DB_FILE = "proyects01_j0.db"
+DB_FILE = "Backend/proyects01_j0.db"
 
 
 def get_conn() -> sqlite3.Connection:
@@ -278,29 +278,21 @@ def delete_map_entry(map_id: int):
     
     
 
-@app.post("/Chat")
-async def obtener_significado(nombre: str = Form(...)):
-    try:
-        respuesta = client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": "", # Optional. Site URL for rankings on openrouter.ai.
-                "X-Title": "", # Optional. Site title for rankings on openrouter.ai.
-            },
-            model="gpt-oss-20b:free",
-            messages=[
-                {"role": "system", "content": "Eres un chat inteligente que ayuda a encontrar las mejores comidas típicas en una ciudad."},
-                {"role": "user", "content": f"¿Qué tipo de comida me recomiendas en {nombre}?"}
-            ]
-        )
 
-        significado = respuesta.choices[0].message.content.strip()
+@app.post("/chat")
+async def obtener_significado(message: str = Body(..., embed=True)):
+    try:
+        # Aquí haces la llamada a tu modelo IA
+        significado = f"Comidas típicas recomendadas en {message}: Ajiaco, Bandeja Paisa, Tamal."
+
         return JSONResponse(content={
-            "pregunta": nombre,
+            "pregunta": message,
             "significado": significado
         })
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
+    
 @app.get("/coffee/")
 def list_coffee():
     try:

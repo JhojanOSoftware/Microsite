@@ -354,6 +354,7 @@ function resolveImageSrc(proj) {
         <small><i>${lugar.addresplace}</i></small><br>
         ⭐ Puntaje: ${lugar.score ?? "N/A"}<br>
       `);
+      
 
       marker.on("click", function () {
         // acercamiento suave al marcador
@@ -383,8 +384,6 @@ function resolveImageSrc(proj) {
     console.error("Error cargando mapas:", err);
   }
 })();
-
-
 
 
 
@@ -420,43 +419,23 @@ function resolveImageSrc(proj) {
   if (closeBtn) closeBtn.addEventListener('click', () => setOpen(false));
 
   async function sendToBackend(text) {
-    // primary: send as form (compat with existing backend that expects "nombre")
-    const url = 'http://127.0.0.1:8000/Chat';
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
-        body: new URLSearchParams({ nombre: text })
-      });
-      const ct = res.headers.get('content-type') || '';
-      if (!res.ok) {
-        // try to parse error body
-        let body = await res.text();
-        try { body = JSON.parse(body); } catch {}
-        throw new Error(body && (body.detail || body.error || JSON.stringify(body)) || `HTTP ${res.status}`);
-      }
-      if (ct.includes('application/json')) {
-        const j = await res.json();
-        // try common keys
-        return j.significado ?? j.answer ?? j.result ?? j.message ?? JSON.stringify(j);
-      } else {
-        return await res.text();
-      }
-    } catch (err) {
-      // fallback: try JSON body if form failed
-      try {
-        const res2 = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ message: text })
-        });
-        const j2 = await res2.json();
-        return j2.significado ?? j2.answer ?? j2.result ?? j2.message ?? JSON.stringify(j2);
-      } catch (err2) {
-        throw err; // original error
-      }
-    }
+  const url = 'http://127.0.0.1:8000/chat';
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ message: text })   // 👈 mandamos siempre "message"
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const j = await res.json();
+    return j.significado ?? j.answer ?? j.result ?? j.message ?? JSON.stringify(j);
+  } catch (err) {
+    console.error("Chat error:", err);
+    throw err;
   }
+}
 
   async function handleSend() {
     const text = input.value.trim();
@@ -539,3 +518,4 @@ function resolveImageSrc(proj) {
     container.innerHTML = '<p class="error">Error cargando cafés. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
   }
 })();
+
