@@ -17,11 +17,11 @@ import os
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="key",
+    api_key="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",
     default_headers={
         "HTTP-Referer": "http://localhost:8000",
         "X-Title": "Actividad Microsite API",
-        "Authorization": f"Bearer key"
+        "Authorization": f"Bearer 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"
     }
 )
 
@@ -383,7 +383,7 @@ async def chat_simple(mensaje: str = Form(...)):
             },
             model="gpt-oss-20b:free",
             messages=[
-                {"role": "system", "content": "Eres un experto en café. Proporciona información sobre el café como su origen, sabor, características, además eres experto en identificar las comidas típicas de una ciudad."},
+                {"role": "system", "content": "Eres un experto en café y en comidas típicas como te dan una ciudad tu hablas que cafe se toma mas alla. Proporciona información sobre el café como su origen, sabor, características, además eres experto en identificar las comidas típicas de una ciudad y las das de manera breve sin extenderte mencionando 3 comidas favoritas de dicha ciudad."},
                 {"role": "user", "content": f"¿{mensaje}?"}
             ]
         )
