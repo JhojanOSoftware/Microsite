@@ -419,22 +419,16 @@ function resolveImageSrc(proj) {
   if (closeBtn) closeBtn.addEventListener('click', () => setOpen(false));
 
   async function sendToBackend(text) {
-  const url = 'http://127.0.0.1:8000/chat';
-  try {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ message: text })   // 👈 mandamos siempre "message"
-    });
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-    const j = await res.json();
-    return j.significado ?? j.answer ?? j.result ?? j.message ?? JSON.stringify(j);
-  } catch (err) {
-    console.error("Chat error:", err);
-    throw err;
-  }
+  const url = 'http://127.0.0.1:8000/chat-simple/';
+  const body = new URLSearchParams({ mensaje: text }); // <-- clave "mensaje" (Form)
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+    body: body.toString()
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const j = await res.json();
+  return j.respuesta ?? j.significado ?? j.answer ?? j.result ?? j.message ?? JSON.stringify(j);
 }
 
   async function handleSend() {

@@ -57,3 +57,14 @@ class Coffee(BaseModel):
             if isinstance(v, str):
                 return v.strip()
             return v
+
+class Exp(BaseModel):
+    id: Optional[int] = Field(None, description="ID de la experiencia (autogenerado)")
+    nombre: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre de la experiencia")]
+    descripcion: Annotated[str, Field(..., min_length=1, max_length=1000, description="Descripción de la experiencia")]
+
+    @validator('*', pre=True)
+    def _strip_strings_exp(cls, v):
+        if isinstance(v, str):
+            return v.strip()
+        return v
