@@ -17,11 +17,11 @@ import os
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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",
+    api_key="key",
     default_headers={
         "HTTP-Referer": "http://localhost:8000",
         "X-Title": "Actividad Microsite API",
-        "Authorization": f"Bearer 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"
+        "Authorization": f"Bearer key"
     }
 )
 
