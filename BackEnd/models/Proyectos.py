@@ -7,7 +7,7 @@ class Proyectos(BaseModel):
     nombre: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre del proyecto")]
     description: Optional[Annotated[str, Field(None, max_length=1000, description="Descripción opcional")]] = None
     imagen: Annotated[str, Field(..., min_length=1, max_length=1000, description="Ruta relativa o URL de la imagen en Frontend/Images")]
-    fecha: Annotated[str, Field(..., min_length=10, max_length=10, description="Fecha en formato YYYY-MM-DD")]
+    fecha: Annotated[str, Field(..., description="Fecha en formato YYYY-MM-DD")]
     linkgithub: Annotated[str, Field(..., min_length=5, max_length=1000, description="Link del repositorio en GitHub")]
     linkvideo: Optional[Annotated[str, Field(None, max_length=1000, description="Link del video del proyecto (opcional)")]] = None
 
@@ -39,7 +39,8 @@ class Map(BaseModel):
     latitud: Annotated[str, Field(..., min_length=1, max_length=50, description="Latitud (string)")]
     longitud: Annotated[str, Field(..., min_length=1, max_length=50, description="Longitud (string)")]
     addresplace: Annotated[str, Field(..., min_length=1, max_length=250, description="Dirección del lugar")]
-
+    score  : Annotated[float, Field(..., ge=0, le=5, description="Puntuación del lugar (0 a 5)")]
+    coffee_id : Annotated[int, Field(..., description="ID del tipo de café asociado")]
     @validator('*', pre=True)
     def _strip_strings_map(cls, v):
         if isinstance(v, str):
@@ -52,19 +53,9 @@ class Coffee(BaseModel):
     coffee_image: Annotated[str, Field(..., min_length=1, max_length=1000, description="Ruta relativa o URL de la imagen en Frontend/Images")]
     description: Annotated[str, Field(..., min_length=1, max_length=400, description="Descripción del tipo de café")]
     video: Annotated[str, Field(..., min_length=5, max_length=1000, description="Link del video del tipo de café")] 
+    activo : Annotated[int, Field(..., ge=0, le=1, description="Estado activo (1) o inactivo (0)")]
     @validator('*', pre=True)
     def _strip_strings_map(cls, v):
             if isinstance(v, str):
                 return v.strip()
             return v
-
-class Exp(BaseModel):
-    id: Optional[int] = Field(None, description="ID de la experiencia (autogenerado)")
-    nombre: Annotated[str, Field(..., min_length=1, max_length=500, description="Nombre de la experiencia")]
-    descripcion: Annotated[str, Field(..., min_length=1, max_length=1000, description="Descripción de la experiencia")]
-
-    @validator('*', pre=True)
-    def _strip_strings_exp(cls, v):
-        if isinstance(v, str):
-            return v.strip()
-        return v

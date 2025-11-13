@@ -8,8 +8,47 @@
     <style>
         #map { height: 400px; width: 100%; }
         #selector { margin: 10px 0; }
+        
+        /* Estilos básicos para el chat de Coffee Assistance */
+        #coffee-assistance-chat {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        .coffee-chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+        }
+        .coffee-chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        .coffee-chat-input input {
+            flex: 1;
+            padding: 8px;
+        }
+        .coffee-chat-input button {
+            padding: 8px 15px;
+        }
+        .message {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background: #e3f2fd;
+            text-align: right;
+        }
+        .bot-message {
+            background: #f5f5f5;
+            text-align: left;
+        }
     </style>
-      
 </head>
 <body>
     <nav>
@@ -17,6 +56,7 @@
         <a href="#menu">Menú</a>
         <a href="#contacto">Contacto</a>
         <a href="#cofetime">Coffetime</a>
+        <a href="#coffee-assistance">Coffee Assistance</a>
     </nav>
 
     <header id="inicio">
@@ -27,12 +67,46 @@
         <section class="profile" id="menu">
             <img src="Frontend/Images/ProfileJhojan.jpg" alt="ProfileJhojan">
             <h2>Jhojan Estiben Ortiz Bautista</h2>
-            <p>Tecnólogo en Gestión de Redes de Datos y desarrollador de software motivado, con experiencia en Python,  y bases de datos relacionales (MySQL). He trabajado en el desarrollo, implementación y mantemiento de servidores y aplicaciones. Poseo conocimientos sólidos en redes, sistemas operativos Linux (especialmente en las siguientes distribiciones: Ubuntu, Kali, Debian, Arch Linux) y automatización de entornos. Apasionado por el aprendizaje continuo y la creación de soluciones prácticas, me destaco por mi capacidad para resolver problemas complejos, adaptarme a nuevos retos y colaborar eficazmente en equipos multidisciplinarios.</p  >
+            <p>Tecnólogo en Gestión de Redes de Datos y desarrollador de software motivado, con experiencia en Python, y bases de datos relacionales (MySQL). He trabajado en el desarrollo, implementación y mantemiento de servidores y aplicaciones. Poseo conocimientos sólidos en redes, sistemas operativos Linux (especialmente en las siguientes distribiciones: Ubuntu, Kali, Debian, Arch Linux) y automatización de entornos. Apasionado por el aprendizaje continuo y la creación de soluciones prácticas, me destaco por mi capacidad para resolver problemas complejos, adaptarme a nuevos retos y colaborar eficazmente en equipos multidisciplinarios.</p>
+        </section>
+
+        <section class="projects" id="proximas">
+            <h2>Añade un Nuevo Proyecto</h2>
+            <form action="#" method="POST">
+                <div>
+                    <label for="id_p">Nombre Proyect:</label>
+                    <input type="text" id="id_p" name="id_p" placeholder="Ingresa el Nombre de tu proyecto" required>
+                </div>
+                <div>
+                    <label for="dep_p">Descripción Proyecto:</label>
+                    <input type="text" id="dep_p" name="dep_p" placeholder="Ingresa la descripción del proyecto" required>
+                </div>
+                <div>
+                    <label for="imag_p">Ruta /Images/:</label>
+                    <input type="text" id="imag_p" name="imag_p" placeholder="Ingresa la ruta de la imagen" required>
+                </div>
+                <div>
+                    <label for="date_p">Fecha:</label>
+                    <input type="text" id="date_p" name="date_p" placeholder="Ingresa la fecha del proyecto" required>
+                </div>
+                <div>
+                    <label for="giturl">Link GitHub:</label>
+                    <textarea type="text" id="giturl" name="giturl" placeholder="Ingresa el link de GitHub" required></textarea>
+                </div>
+                <div>
+                    <label for="yturl">Link YouTube:</label>
+                    <textarea type="text" id="yturl" name="yturl" placeholder="Ingresa el link de YouTube" required></textarea>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn" onclick="AgregarProyecto()">Enviar</button>
+                </div>
+            </form>
         </section>
 
         <section class="projects" id="proximas">
             <h2>Proyectos Realizados</h2>
-              <div id="projects-list" class="projects-grid" aria-live="polite"></div>
+            <div id="projects-list" class="projects-grid" aria-live="polite"></div>
         </section>
 
         <section class="skills">
@@ -46,19 +120,18 @@
             </ul>
         </section>
        
-        
         <section id="cofetime" class="map-section" aria-label="Mapa de lugares para tomar cafe en bogota">
             <h2>CoffeBreak</h2>
             <p>Si te estabas preguntando donde tomar un buen café en Bogotá, aquí tienes algunas opciones:</p>
             <div id="map" class="map" role="application" aria-label="Mapa interactivo"></div>
-            
-        </section>
-           <section class="Coffeclass" id="coffeid">
-            <h2>Clases de Café</h2>
-              <div id="coffeid1" class="coffe-grid" aria-live="polite"></div>
         </section>
 
-         <section class="contact" id="contacto">
+        <section class="Coffeclass" id="coffeid">
+            <h2>Clases de Café</h2>
+            <div id="coffeid1" class="coffe-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="contact" id="contacto">
             <h2>Contacto</h2>
             <form action="#" method="POST">
                 <div>
@@ -82,10 +155,68 @@
                 </div>
             </form>
         </section>
-  
-    </div>
-    
 
+        <!-- Coffee Assistance Section with Chat -->
+        <section id="coffee-assistance">
+            <div class="container">
+        <div class="header">
+            <h1>Coffee Assistant</h1>
+        </div>
+
+        <div class="content">
+            <!-- Chat Section -->
+                <div class="chat-section">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system-message">
+                        Conectando al servidor WebSocket...
+                    </div>
+                </div>
+                <!-- TCP UI removed (SSE + WebSocket only) -->
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Escribe tu pregunta sobre cafés...">
+                    <button onclick="sendMessage()">Enviar</button>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="info-section">
+                <h2>Consultas Generales</h2>
+                
+                
+                <div class="examples">
+                    <h3>Haz click en una Consulta:</h3>
+                    <ul>
+                        <li onclick="useExample(this)">Sitios con puntuación mayor a 4</li>
+                        <li onclick="useExample(this)">Cafés con buena puntuación</li>
+                        <li onclick="useExample(this)">Los mejores cafés cerca de mí</li>
+                        <li onclick="useExample(this)">Sitios con rating excelente</li>
+                        <li onclick="useExample(this)">Cafés con alta calificación</li>
+                    </ul>
+                </div>
+
+                <div class="examples">
+                    <h3>Opciones:</h3>
+                    <ul>
+                        <li onclick="connectWebSocket()">🔄 Reconectar</li>
+                        <li onclick="clearChat()">🗑️ Limpiar chat</li>
+                        <li onclick="testConnection()">🧪 Probar conexión</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>📊 Resultados Encontrados</h2>
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Los resultados se insertarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+        </section>
+    </div>
+
+    
     <!-- Skill popover container -->
     <div id="skill-popover" role="dialog" aria-hidden="true"></div>
 
@@ -93,39 +224,20 @@
     <button id="chatbot-toggle" class="chatbot-toggler" aria-label="Abrir chat" title="Chat">💬</button>
 
 <aside id="chatbot" class="chatbot" aria-hidden="true" role="dialog" aria-label="Chat de soporte">
-  <header class="chatbot-header">
-    <strong>Descubre el mundo mediante la comida</strong>
-    <button id="chatbot-close" aria-label="Cerrar chat">×</button>
-  </header>
-
-  <div id="chat-messages" class="messages" role="log" aria-live="polite">
-    <div class="message bot">Hola, puedo responder preguntas sobre las comidas tipicas de una ciudad. Escribe abajo tu cuidad :)</div>
-  </div>
-
-  <div class="input-box">
-    <input id="chat-input" name="message" type="text" placeholder="Escribe un mensaje..." />
-    <!-- botón tipo button para que no haga submit del form -->
-    <button id="chat-send" type="button">➤</button>
-  </div>
-</aside>  
-  <script>
-      const chatToggle = document.getElementById('chat-toggle');
-      const chatWidget = document.getElementById('chat-widget');
-      const chatClose = document.getElementById('chat-close');
-
-      chatToggle.addEventListener('click', () => {
-        chatWidget.setAttribute('aria-hidden', 'false');
-        chatWidget.style.display = 'block';
-      });
-
-      chatClose.addEventListener('click', () => {
-        chatWidget.setAttribute('aria-hidden', 'true');
-        chatWidget.style.display = 'none';
-      });
-
-      // Hide chat by default
-      chatWidget.style.display = 'none';
-    </script>
+    <header class="chatbot-header">
+        <strong>Descubre el mundo mediante la comida</strong>
+        <button id="chatbot-close" aria-label="Cerrar chat">×</button>
+    </header>
+    <div id="chat-messages" class="chat-messages" aria-live="polite" style="padding:12px; max-height:260px; overflow:auto;">
+        <!-- Mensajes del chat -->
+        <div class="message bot">Bienvenido al asistente. Puedes preguntar por lugares, tipos de café o recetas.</div>
+    </div>
+    <div class="chat-input" style="display:flex; gap:8px; padding:10px;">
+        <input id="chat-input" type="text" placeholder="Escribe tu pregunta sobre comidas o cafés..." style="flex:1; padding:8px;" />
+        <button id="chat-send" class="btn">Enviar</button>
+    </div>
+</aside>
+    
 
     <!-- Leaflet JS -->
   
@@ -134,5 +246,6 @@
 
     <!-- Main frontend script (keeps existing reference) -->
     <script src="Backend/GetAPI.js" defer></script>
+        
 </body>
 </html>
