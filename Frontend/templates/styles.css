@@ -817,11 +817,10 @@ footer {
 }
 /* Coffee Assistance Chat Styles */
 #coffee-assistance {
-    margin: 40px 0;
     padding: 30px;
-    background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+   background: linear-gradient(to right, #3e2723, #6d4c41);
     border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(139, 69, 19, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 #coffee-assistance h2 {

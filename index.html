@@ -2,217 +2,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Presentacion Ingeniero Jhojan Estiben Ortiz Bautista</title>
+    <title>Portafolio | Jhojan Estiben Ortiz Bautista</title>
     <link rel="stylesheet" href="Frontend/templates/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map { height: 400px; width: 100%; }
-        #selector { margin: 10px 0; }
-        
-        /* Estilos básicos para el chat de Coffee Assistance */
-        #coffee-assistance-chat {
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 15px;
-            background: #f9f9f9;
+        /* ============================================
+           APPLE HIG DESIGN PRINCIPLES APPLICATION
+           Principles: Hierarchy, Harmony, Consistency
+           ============================================ */
+
+        :root {
+            /* Typography - SF Pro Display/Text (Apple's system font) */
+            --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", 
+                           "SF Pro Text", "Helvetica Neue", sans-serif;
+            
+            /* Color Palette - Apple HIG with personal interaction focus */
+            /* Base: Neutral grays for accessibility and elegance */
+            --bg-main: #f5f5f7;
+            --bg-card: #ffffff;
+            --bg-elevated: #ffffff;
+            --bg-hover: #fafafa;
+            
+            /* Text colors with proper contrast (WCAG AAA) */
+            --text-primary: #1d1d1f;
+            --text-secondary: #6e6e73;
+            --text-tertiary: #86868b;
+            --text-disabled: #a0a0a5;
+            
+            /* Primary accent - Apple Blue (Professional yet personal) */
+            --accent-primary: #0066cc;
+            --accent-light: #e8f4ff;
+            --accent-focus: #004a99;
+            
+            /* Secondary accent - Warm interaction element */
+            --accent-warm: #f56300;
+            --accent-warm-light: #fff0e8;
+            
+            /* UI Elements */
+            --border-light: #d2d2d7;
+            --border-subtle: #e5e5e7;
+            
+            /* Shadows - Refined Apple style (subtle and professional) */
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.12);
+            
+            /* Smooth transitions */
+            --transition-fast: 0.15s ease-out;
+            --transition-normal: 0.25s ease-out;
+            --transition-slow: 0.35s ease-out;
         }
-        .coffee-chat-messages {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: white;
+
+        * {
+            box-sizing: border-box;
         }
-        .coffee-chat-input {
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-primary);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           NAVIGATION - Sticky, minimalist header
+           Similar to prcv.html but with refined Apple colors
+           ============================================ */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 14px 30px;
             display: flex;
-            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            gap: 28px;
+            height: auto;
+            flex-wrap: wrap;
         }
-        .coffee-chat-input input {
-            flex: 1;
-            padding: 8px;
+
+        nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
         }
-        .coffee-chat-input button {
-            padding: 8px 15px;
+
+        nav a:hover {
+            color: var(--accent-primary);
         }
-        .message {
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 5px;
+
+        nav a.active {
+            color: var(--accent-primary);
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 2px;
         }
-        .user-message {
-            background: #e3f2fd;
-            text-align: right;
+
+        /* ============================================
+           CONTAINER - Max-width constraint
+           Principle: Order & Harmony
+           ============================================ */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        .bot-message {
-            background: #f5f5f5;
+
+        /* ============================================
+           PANELS - Section visibility
+           ============================================ */
+        .panel {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ============================================
+           PROFILE SECTION - Similar to prcv.html
+           Centered, generous spacing, clear hierarchy
+           ============================================ */
+        .profile {
+            text-align: center;
+            padding: 80px 20px 70px;
+            background: linear-gradient(180deg, var(--bg-card), var(--bg-main));
+        }
+
+        .profile img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 24px;
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+            transition: transform var(--transition-normal);
+        }
+
+        .profile img:hover {
+            transform: scale(1.05);
+        }
+
+        .profile h1 {
+            font-size: 42px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin: 0 0 10px;
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
+
+        .profile h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin: 0 0 28px;
+            letter-spacing: -0.01em;
+        }
+
+        .profile p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+            letter-spacing: -0.00em;
+        }
+
+        /* ============================================
+           SECTION TITLES - Visual hierarchy
+           Larger and bolder, similar to prcv.html
+           ============================================ */
+        section {
+            padding: 60px 0;
+        }
+
+        section h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0 0 30px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           PROJECT CARD - Similar to prcv.html
+           Refined shadows and smooth interactions
+           ============================================ */
+        .projects {
+            padding: 40px 0;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 18px;
+            padding: 30px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+            border: none;
+            transition: transform var(--transition-normal), 
+                        box-shadow var(--transition-normal);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .project-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 0 10px;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .project-card p {
+            margin: 12px 0;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .project-card strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           FORM STYLES - Similar to prcv.html
+           Clean inputs with proper focus states
+           ============================================ */
+        form div {
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
             text-align: left;
         }
+
+        form label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        form input,
+        form textarea {
+            /* Apple HIG - Light theme adaptation */
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: -0.2px;
+            
+            /* Layout - 44px height standard */
+            padding: 10px 14px;
+            min-height: 44px;
+            
+            /* Background with translucency */
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            
+            /* Border - Subtle with vibrancy */
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            
+            /* Text color */
+            color: rgba(29, 29, 31, 0.9);
+            
+            /* Smooth transitions */
+            transition: all 180ms cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        form input:hover,
+        form textarea:hover {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        form input::placeholder,
+        form textarea::placeholder {
+            color: rgba(110, 110, 115, 0.6);
+            opacity: 1;
+        }
+
+        form input:focus,
+        form textarea:focus {
+            outline: none;
+            border-color: rgba(0, 102, 204, 0.9);
+            background: rgba(255, 255, 255, 1);
+            
+            /* Focus ring - AA contrast */
+            box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.25),
+                        0 2px 8px rgba(0, 102, 204, 0.1);
+            
+            /* Subtle scale emphasis */
+            transform: scale(1.01);
+        }
+
+        form textarea {
+            min-height: 120px;
+            resize: vertical;
+            padding-top: 12px;
+        }
+
+        /* ============================================
+           BUTTONS - Apple's pill-shaped buttons
+           Updated with primary accent color
+           ============================================ */
+        .btn {
+            padding: 12px 26px;
+            border-radius: 999px;
+            border: none;
+            background: var(--accent-primary);
+            color: white;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            letter-spacing: -0.01em;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--accent-focus);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 1.5px solid var(--accent-primary);
+        }
+
+        .btn-ghost:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-focus);
+        }
+
+        /* ============================================
+           SKILLS LIST - Grid of skills
+           Refined with new color palette
+           ============================================ */
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+
+        .skills ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .skills li {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            color: var(--text-primary);
+        }
+
+        .skills li:hover {
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
+            background: var(--accent-light);
+        }
+
+        /* ============================================
+           MAP SECTION - Refined styling
+           ============================================ */
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ============================================
+           COFFEE GRID - Responsive cards
+           Refined with new color palette
+           ============================================ */
+        .coffe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 40px 0;
+        }
+
+        /* ============================================
+           CONTACT SECTION - Similar to prcv.html
+           Centered, clean, with shadow emphasis
+           ============================================ */
+        .contact {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 700px;
+            margin: 0 auto 100px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .contact h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - Mobile first
+           Similar to prcv.html responsiveness
+           ============================================ */
+        @media (max-width: 1000px) {
+            .container {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                gap: 16px;
+                padding: 12px 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .profile {
+                padding: 60px 16px;
+            }
+
+            .profile h1 {
+                font-size: 32px;
+            }
+
+            .profile img {
+                width: 140px;
+                height: 140px;
+            }
+
+            section h2 {
+                font-size: 24px;
+                margin-bottom: 24px;
+            }
+
+            .project-card {
+                padding: 24px;
+                border-radius: 16px;
+            }
+
+            .contact {
+                padding: 40px 24px;
+                margin: 40px 16px 100px;
+            }
+
+            .skills li {
+                font-size: 14px;
+            }
+
+            #map {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile {
+                padding: 50px 16px;
+            }
+
+            .profile h1 {
+                font-size: 26px;
+            }
+
+            .profile h2 {
+                font-size: 16px;
+            }
+
+            section h2 {
+                font-size: 20px;
+            }
+
+            .project-card {
+                padding: 20px;
+                border-radius: 16px;
+                margin-bottom: 16px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 14px 20px;
+            }
+
+            .contact {
+                border-radius: 16px;
+                padding: 30px 20px;
+            }
+
+            #map {
+                height: 250px;
+            }
+
+            nav {
+                gap: 12px;
+                padding: 10px 16px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+        }
+
+        #map { height: 400px; width: 100%; }
+        #selector { margin: 10px 0; }
+    </style>
+    <style>
+        /* Panel management */
+        .panel { display: none; }
+        .panel.active { display: block; }
+        nav a.active { font-weight: 700; text-decoration: underline; }
+        .panel[aria-hidden="true"] { display: none; }
     </style>
 </head>
 <body>
-    <nav>
+    <nav role="navigation" aria-label="Navegación principal">
         <a href="#inicio">Inicio</a>
-        <a href="#menu">Menú</a>
+        <a href="#nuevo-proyecto">Nuevo Proyecto</a>
+        <a href="#proyectos-realizados">Proyectos</a>
+        <a href="#skills">Habilidades</a>
+        <a href="#cofetime">Ubicaciones</a>
+        <a href="#clases-cafe">Café</a>
         <a href="#contacto">Contacto</a>
-        <a href="#cofetime">Coffetime</a>
-        <a href="#coffee-assistance">Coffee Assistance</a>
     </nav>
 
-    <header id="inicio">
-        <h1>Presentacion Ingeniero Jhojan Estiben Ortiz Bautista</h1>
-    </header>
-
     <div class="container">
-        <section class="profile" id="menu">
-            <img src="Frontend/Images/ProfileJhojan.jpg" alt="ProfileJhojan">
-            <h2>Jhojan Estiben Ortiz Bautista</h2>
-            <p>Tecnólogo en Gestión de Redes de Datos y desarrollador de software motivado, con experiencia en Python, y bases de datos relacionales (MySQL). He trabajado en el desarrollo, implementación y mantemiento de servidores y aplicaciones. Poseo conocimientos sólidos en redes, sistemas operativos Linux (especialmente en las siguientes distribiciones: Ubuntu, Kali, Debian, Arch Linux) y automatización de entornos. Apasionado por el aprendizaje continuo y la creación de soluciones prácticas, me destaco por mi capacidad para resolver problemas complejos, adaptarme a nuevos retos y colaborar eficazmente en equipos multidisciplinarios.</p>
+        <section id="inicio" class="profile panel" role="region" aria-labelledby="perfil-titulo">
+            <img src="Frontend/Images/ProfileJhojan.jpg" alt="Foto de perfil de Jhojan Estiben Ortiz Bautista" loading="lazy">
+            <h1 id="perfil-titulo">Jhojan Estiben Ortiz Bautista</h1>
+            <h2>Ingeniero de Software | Backend | Redes | Linux</h2>
+            <p>Tecnólogo en Gestión de Redes de Datos con experiencia en Python, JavaScript y bases de datos MySQL. Especializado en desarrollo backend, administración de servidores Linux y automatización. Apasionado por resolver problemas complejos y crear soluciones escalables.</p>
         </section>
 
-        <section class="projects" id="proximas">
-            <h2>Añade un Nuevo Proyecto</h2>
-            <form action="#" method="POST">
+        <section class="projects panel" id="nuevo-proyecto" role="region" aria-labelledby="nuevo-proyecto-titulo">
+            <h2 id="nuevo-proyecto-titulo">Añade un Nuevo Proyecto</h2>
+            <form class="projects" method="POST" aria-label="Formulario para agregar un nuevo proyecto">
                 <div>
-                    <label for="id_p">Nombre Proyect:</label>
-                    <input type="text" id="id_p" name="id_p" placeholder="Ingresa el Nombre de tu proyecto" required>
+                    <label for="id_p">Nombre del Proyecto:</label>
+                    <input type="text" id="id_p" name="id_p" placeholder="Ej: Mi App Web" required aria-required="true">
                 </div>
                 <div>
-                    <label for="dep_p">Descripción Proyecto:</label>
-                    <input type="text" id="dep_p" name="dep_p" placeholder="Ingresa la descripción del proyecto" required>
+                    <label for="dep_p">Descripción:</label>
+                    <input type="text" id="dep_p" name="dep_p" placeholder="Breve descripción del proyecto" required aria-required="true">
                 </div>
                 <div>
-                    <label for="imag_p">Ruta /Images/:</label>
-                    <input type="text" id="imag_p" name="imag_p" placeholder="Ingresa la ruta de la imagen" required>
+                    <label for="imag_p">Imagen (/Images/nombre.jpg):</label>
+                    <input type="text" id="imag_p" name="imag_p" placeholder="Ruta de la imagen" required aria-required="true">
                 </div>
                 <div>
                     <label for="date_p">Fecha:</label>
-                    <input type="text" id="date_p" name="date_p" placeholder="Ingresa la fecha del proyecto" required>
+                    <input type="text" id="date_p" name="date_p" placeholder="Ej: Marzo 2025" required aria-required="true">
                 </div>
                 <div>
-                    <label for="giturl">Link GitHub:</label>
-                    <textarea type="text" id="giturl" name="giturl" placeholder="Ingresa el link de GitHub" required></textarea>
+                    <label for="giturl">Enlace GitHub:</label>
+                    <textarea id="giturl" name="giturl" placeholder="https://github.com/..." required aria-required="true"></textarea>
                 </div>
                 <div>
-                    <label for="yturl">Link YouTube:</label>
-                    <textarea type="text" id="yturl" name="yturl" placeholder="Ingresa el link de YouTube" required></textarea>
+                    <label for="yturl">Enlace Video:</label>
+                    <textarea id="yturl" name="yturl" placeholder="https://youtube.com/..." required aria-required="true"></textarea>
                 </div>
-
-                <div>
-                    <button type="submit" class="btn" onclick="AgregarProyecto()">Enviar</button>
-                </div>
+                <button type="submit" class="btn" onclick="AgregarProyecto()">Enviar</button>
             </form>
         </section>
 
-        <section class="projects" id="proximas">
-            <h2>Proyectos Realizados</h2>
-            <div id="projects-list" class="projects-grid" aria-live="polite"></div>
+        <section class="projects panel" id="proyectos-realizados" role="region" aria-labelledby="proyectos-titulo">
+            <h2 id="proyectos-titulo">Proyectos Realizados</h2>
+            <div id="projects-list" class="projects-grid" aria-live="polite" aria-label="Lista de proyectos"></div>
         </section>
 
-        <section class="skills">
-            <h2>Habilidades Técnicas</h2>
+        <section class="skills panel" id="skills" role="region" aria-labelledby="skills-titulo">
+            <h2 id="skills-titulo">Habilidades Técnicas</h2>
             <ul>
-                <li tabindex="0" role="button" data-desc="Maquetación responsive, accesibilidad, semántica y buenas prácticas con HTML5 y CSS moderno (Flexbox, Grid).">HTML y CSS</li>
-                <li tabindex="0" role="button" data-desc="Programación front-end y back-end, DOM, ES6+, APIs, y frameworks modernos. Experiencia en scripting y automatización.">JavaScript</li>
-                <li tabindex="0" role="button" data-desc="Desarrollo de scripts y aplicaciones, manejo de librerías, automatización y análisis de datos con Python.">Python</li>
-                <li tabindex="0" role="button" data-desc="Control de versiones, flujo de trabajo Git, pull requests, ramas y colaboración en GitHub.">Git y GitHub</li>
-                <li tabindex="0" role="button" data-desc="Diseño y consultas optimizadas, modelado relacional y backups. Experiencia con MySQL y herramientas de administración.">MySQL</li>
+                <li tabindex="0" role="button" data-desc="Maquetación responsive, accesibilidad, semántica y buenas prácticas con HTML5 y CSS moderno (Flexbox, Grid)." aria-label="HTML y CSS - Pulsa para más información">HTML y CSS</li>
+                <li tabindex="0" role="button" data-desc="Programación front-end y back-end, DOM, ES6+, APIs, y frameworks modernos. Experiencia en scripting y automatización." aria-label="JavaScript - Pulsa para más información">JavaScript</li>
+                <li tabindex="0" role="button" data-desc="Desarrollo de scripts y aplicaciones, manejo de librerías, automatización y análisis de datos con Python." aria-label="Python - Pulsa para más información">Python</li>
+                <li tabindex="0" role="button" data-desc="Control de versiones, flujo de trabajo Git, pull requests, ramas y colaboración en GitHub." aria-label="Git y GitHub - Pulsa para más información">Git y GitHub</li>
+                <li tabindex="0" role="button" data-desc="Diseño y consultas optimizadas, modelado relacional y backups. Experiencia con MySQL y herramientas de administración." aria-label="MySQL - Pulsa para más información">MySQL</li>
             </ul>
         </section>
        
-        <section id="cofetime" class="map-section" aria-label="Mapa de lugares para tomar cafe en bogota">
-            <h2>CoffeBreak</h2>
-            <p>Si te estabas preguntando donde tomar un buen café en Bogotá, aquí tienes algunas opciones:</p>
-            <div id="map" class="map" role="application" aria-label="Mapa interactivo"></div>
+        <section id="cofetime" class="map-section panel" aria-label="Mapa de ubicaciones de cafés">
+            <h2>Ubicaciones Recomendadas</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 32px;">Descubre los mejores lugares para tomar café en Bogotá</p>
+            <div id="map" class="map" role="application" aria-label="Mapa interactivo de ubicaciones"></div>
         </section>
 
-        <section class="Coffeclass" id="coffeid">
-            <h2>Clases de Café</h2>
-            <div id="coffeid1" class="coffe-grid" aria-live="polite"></div>
+        <section class="Coffeclass panel" id="clases-cafe" role="region" aria-labelledby="cafe-titulo">
+            <h2 id="cafe-titulo">Variedades de Café</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 32px;">Conoce los diferentes tipos de café y sus características</p>
+            <div id="coffeid1" class="coffe-grid" aria-live="polite" aria-label="Galería de variedades de café"></div>
         </section>
 
-        <section class="contact" id="contacto">
-            <h2>Contacto</h2>
-            <form action="#" method="POST">
+        <section class="contact panel" id="contacto" role="region" aria-labelledby="contacto-titulo">
+            <h2 id="contacto-titulo">Ponte en Contacto</h2>
+            <p>¿Tienes una propuesta interesante? Me encantaría escucharte.</p>
+            <form action="#" method="POST" aria-label="Formulario de contacto">
                 <div>
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
-                </div>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" required aria-required="true">
                 <div>
                     <label for="telefono">Teléfono:</label>
-                    <input type="text" id="telefono" name="telefono" placeholder="Ingresa tu teléfono" required>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono (opcional)">
                 </div>
                 <div>
                     <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+                    <input type="email" id="email" name="email" placeholder="tu@correo.com" required aria-required="true">
                 </div>
                 <div>
                     <label for="mensaje">Mensaje:</label>
-                    <textarea type="text" id="mensaje" name="mensaje" rows="4" placeholder="Escribe tu mensaje" required></textarea>
+                    <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required aria-required="true"></textarea>
                 </div>
                 <div>
-                    <button type="submit" class="btn" onclick="AgregarContact()">Enviar</button>
+                    <button type="submit" class="btn" onclick="AgregarContact()">Enviar Mensaje</button>
                 </div>
             </form>
-        </section>
-
-        <!-- Coffee Assistance Section with Chat -->
-        <section id="coffee-assistance">
-            <div class="container">
-        <div class="header">
-            <h1>Coffee Assistant</h1>
-        </div>
-
-        <div class="content">
-            <!-- Chat Section -->
-                <div class="chat-section">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message system-message">
-                        Conectando al servidor WebSocket...
-                    </div>
-                </div>
-                <!-- TCP UI removed (SSE + WebSocket only) -->
-                <div class="chat-input">
-                    <input type="text" id="messageInput" placeholder="Escribe tu pregunta sobre cafés...">
-                    <button onclick="sendMessage()">Enviar</button>
-                </div>
-            </div>
-
-            <!-- Info Section -->
-            <div class="info-section">
-                <h2>Consultas Generales</h2>
-                
-                
-                <div class="examples">
-                    <h3>Haz click en una Consulta:</h3>
-                    <ul>
-                        <li onclick="useExample(this)">Sitios con puntuación mayor a 4</li>
-                        <li onclick="useExample(this)">Cafés con buena puntuación</li>
-                        <li onclick="useExample(this)">Los mejores cafés cerca de mí</li>
-                        <li onclick="useExample(this)">Sitios con rating excelente</li>
-                        <li onclick="useExample(this)">Cafés con alta calificación</li>
-                    </ul>
-                </div>
-
-                <div class="examples">
-                    <h3>Opciones:</h3>
-                    <ul>
-                        <li onclick="connectWebSocket()">🔄 Reconectar</li>
-                        <li onclick="clearChat()">🗑️ Limpiar chat</li>
-                        <li onclick="testConnection()">🧪 Probar conexión</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Results Section -->
-            <div class="results-section" id="resultsSection" style="display: none;">
-                <h2>📊 Resultados Encontrados</h2>
-                <div class="results-grid" id="resultsGrid">
-                    <!-- Los resultados se insertarán aquí dinámicamente -->
-                </div>
-            </div>
-        </div>
-    </div>
         </section>
     </div>
 
@@ -220,32 +683,66 @@
     <!-- Skill popover container -->
     <div id="skill-popover" role="dialog" aria-hidden="true"></div>
 
-    <!-- Floating chat widget -->
-    <button id="chatbot-toggle" class="chatbot-toggler" aria-label="Abrir chat" title="Chat">💬</button>
-
-<aside id="chatbot" class="chatbot" aria-hidden="true" role="dialog" aria-label="Chat de soporte">
-    <header class="chatbot-header">
-        <strong>Descubre el mundo mediante la comida</strong>
-        <button id="chatbot-close" aria-label="Cerrar chat">×</button>
-    </header>
-    <div id="chat-messages" class="chat-messages" aria-live="polite" style="padding:12px; max-height:260px; overflow:auto;">
-        <!-- Mensajes del chat -->
-        <div class="message bot">Bienvenido al asistente. Puedes preguntar por lugares, tipos de café o recetas.</div>
-    </div>
-    <div class="chat-input" style="display:flex; gap:8px; padding:10px;">
-        <input id="chat-input" type="text" placeholder="Escribe tu pregunta sobre comidas o cafés..." style="flex:1; padding:8px;" />
-        <button id="chat-send" class="btn">Enviar</button>
-    </div>
-</aside>
-    
-
     <!-- Leaflet JS -->
   
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <!-- Main frontend script (keeps existing reference) -->
-    <script src="Backend/GetAPI.js" defer></script>
+    <script src="BackEnd/GetAPI.js" defer></script>
+    <script>
+    // Mostrar/ocultar paneles según el enlace del menú y hacer scroll/focus
+    (function(){
+        const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+        const panelIds = navLinks.map(a => (a.getAttribute('href')||'').replace('#','')).filter(Boolean);
+        const panels = panelIds.map(id => document.getElementById(id)).filter(Boolean);
+
+        function showPanel(id){
+            panels.forEach(el => {
+                if(!el) return;
+                if(el.id === id){
+                    el.classList.add('active');
+                    el.setAttribute('aria-hidden','false');
+                    try{ el.scrollIntoView({behavior: 'smooth', block: 'start'}); }catch(e){}
+                    try{ el.focus({preventScroll:true}); }catch(e){}
+                } else {
+                    el.classList.remove('active');
+                    el.setAttribute('aria-hidden','true');
+                }
+            });
+
+            // update nav active state
+            navLinks.forEach(a => {
+                const target = (a.getAttribute('href')||'').replace('#','');
+                if(target === id) a.classList.add('active'); else a.classList.remove('active');
+            });
+
+            // update history hash (non-forcing)
+            if(window.location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
+        }
+
+        // Attach handlers
+        navLinks.forEach(a => {
+            a.addEventListener('click', function(ev){
+                ev.preventDefault();
+                const target = (this.getAttribute('href') || '').replace('#','');
+                if(!target) return;
+                showPanel(target);
+            });
+        });
+
+        // On load: show panel from hash or default to 'inicio'
+        const initial = (window.location.hash || '#inicio').replace('#','') || 'inicio';
+        const match = panels.find(p => p && p.id === initial);
+        if(match) showPanel(initial); else if(panels.length) showPanel(panels[0].id);
+
+        // Support back/forward navigation
+        window.addEventListener('hashchange', ()=>{
+            const id = (window.location.hash || '#inicio').replace('#','');
+            if(id) showPanel(id);
+        });
+    })();
+    </script>
         
 </body>
 </html>

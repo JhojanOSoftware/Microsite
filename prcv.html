@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | Jhojan Estiben Ortiz Bautista</title>
+    <style>
+        :root {
+    --bg-main: #f5f5f7;
+    --bg-card: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --accent: #0071e3;
+    --border-light: #d2d2d7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                 "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* NAV */
+nav {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 14px 30px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    z-index: 100;
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    padding: 90px 20px 70px;
+    background: linear-gradient(180deg, #ffffff, var(--bg-main));
+}
+
+header h1 {
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+/* LAYOUT */
+.container {
+    max-width: 980px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+section {
+    margin-bottom: 90px;
+}
+
+/* TITULOS */
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* PERFIL */
+.profile {
+    text-align: center;
+}
+
+.profile img {
+    width: 160px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.profile p {
+    max-width: 700px;
+    margin: auto;
+    color: var(--text-secondary);
+    font-size: 17px;
+}
+
+/* PROYECTOS */
+.project-card {
+    background: var(--bg-card);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    max-width: 700px;
+}
+
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+}
+
+.project-content h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.project-description {
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+}
+
+.project-tech,
+.project-date {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.project-links a {
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 15px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.project-links a:hover {
+    text-decoration: underline;
+}
+
+/* CV */
+.cv-box {
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.cv-box h3 {
+    margin-top: 35px;
+    font-size: 20px;
+}
+
+.cv-box p,
+.cv-box li {
+    color: var(--text-secondary);
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+/* CONTACTO */
+.contact {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 50px 40px;
+    max-width: 700px;
+    margin: 0 auto 100px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.contact h2 {
+    margin-bottom: 20px;
+}
+
+.contact p {
+    color: #6e6e73;
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+/* FORMULARIO CONTACTO */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1d1d1f;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #d2d2d7;
+    background: #ffffff;
+    color: #1d1d1f;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #6e6e73;
+}
+
+/* Focus estilo Apple */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0,113,227,0.2);
+}
+
+/* Textarea */
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Botón */
+.contact-btn {
+    margin-top: 10px;
+    align-self: flex-start;
+    padding: 12px 26px;
+    border-radius: 999px;
+    border: none;
+    background: #0071e3;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.contact-btn:hover {
+    background: #005bb5;
+}
+
+.contact-btn:active {
+    transform: scale(0.97);
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#perfil">Perfil</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#habilidades">Habilidades</a>
+        <a href="#cv">CV</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <!-- HEADER -->
+    <header id="inicio">
+        <h1>Jhojan Estiben Ortiz Bautista</h1>
+        <p>Ingeniero de Software en Formación | Backend | Redes | Linux</p>
+    </header>
+
+    <div class="container">
+
+        <!-- PERFIL -->
+        <section class="profile" id="perfil">
+            <img src="Frontend/Images/ProfileJhojan.jpg" alt="Foto de Jhojan Ortiz">
+            <h2>Perfil Profesional</h2>
+            <p>
+                Tecnólogo en Gestión de Redes de Datos y desarrollador de software motivado, 
+                con experiencia en Python, JavaScript y bases de datos relacionales (MySQL). 
+                Experiencia en servidores Linux (Ubuntu, Kali, Debian, Arch) y automatización.
+                Apasionado por resolver problemas complejos y crear soluciones eficientes.
+            </p>
+        </section>
+
+        <!-- PROYECTOS -->
+        <section id="proyectos">
+            <h2>Proyectos</h2>
+<div class="project-card">
+
+    <div class="project-content">
+        <h3>MicroSite – Portafolio Web</h3>
+
+        <p class="project-description">
+            Sitio web personal desarrollado con HTML, CSS y JavaScript.
+            Incluye diseño responsive, navegación accesible y estructura semántica.
+            Enfocado en buenas prácticas y rendimiento.
+        </p>
+
+        <p class="project-tech">
+            <strong>Tecnologías:</strong> HTML5, CSS3, JavaScript
+        </p>
+
+        <p class="project-date">
+            <strong>Fecha:</strong> Marzo 2025
+        </p>
+
+        <div class="project-links">
+            <a href="https://github.com/tuusuario/microsite" target="_blank">GitHub</a>
+            <a href="https://youtube.com/" target="_blank">Demo YouTube</a>
+        </div>
+    </div>
+</div>
+
+<div class="project-card">
+
+    <div class="project-content">
+        <h3>Proyect J0</h3>
+
+        <p class="project-description">
+           About
+Ejemplo basico de contabilidad, cuya logica fue realizada con python, se maneja un servidor con fastapi con algunos metodos los cuales inicialmente permiten generar documentos de manera rapida y sencilla para la contabilidad de un sitio
+        </p>
+
+        <p class="project-tech">
+            <strong>Tecnologías:</strong>Python
+JavaScript
+CSS
+HTML        </p>
+
+        <p class="project-date">
+            <strong>Fecha:</strong> Enero 2026
+        </p>
+
+        <div class="project-links">
+            <a href="https://github.com/tuusuario/Proyect J0" target="_blank">GitHub</a>
+            <a href="https://youtube.com/" target="_blank">Demo YouTube</a>
+        </div>
+</div>
+</div>
+
+<div class="project-card">
+
+    <div class="project-content">
+        <h3>CEO</h3>
+
+        <p class="project-description">
+            Sitio web buscando mejorar las oportunidades de empleo y tambien ayudando a las personas para obtener mejores oportunidades academicas
+        </p>
+
+        <p class="project-tech">
+            <strong>Tecnologías:</strong> JavaScript,HTML ,Python, CSS        </p>
+
+        <p class="project-date">
+            <strong>Fecha:</strong> Septiembre 2025
+        </p>
+
+        <div class="project-links">
+            <a href="https://github.com/tuusuario/CEO" target="_blank">GitHub</a>
+            <a href="https://youtube.com/" target="_blank">Demo YouTube</a>
+        </div>
+    </div>
+</div>
+        </section>
+
+
+
+        <!-- HABILIDADES -->
+<section id="habilidades">
+    <h2>Habilidades Técnicas</h2>
+
+    <ul class="skills-list">
+        <li tabindex="0" role="button"
+            data-desc="Maquetación con HTML5 y CSS3, Flexbox, Grid y diseño responsive.">
+            HTML & CSS
+        </li>
+
+        <li tabindex="0" role="button"
+            data-desc="JavaScript moderno (ES6+), manipulación del DOM, consumo de APIs y lógica front-end.">
+            JavaScript
+        </li>
+
+        <li tabindex="0" role="button"
+            data-desc="Programación orientada a objetos, automatización de procesos y scripting con Python.">
+            Python
+        </li>
+
+        <li tabindex="0" role="button"
+            data-desc="Diseño de bases de datos relacionales, consultas SQL y optimización en MySQL.">
+            MySQL
+        </li>
+
+        <li tabindex="0" role="button"
+            data-desc="Administración de servidores Linux: Ubuntu, Debian, Kali y Arch Linux.">
+            Linux Server
+        </li>
+
+        <li tabindex="0" role="button"
+            data-desc="Control de versiones, flujos de trabajo colaborativos y repositorios en GitHub.">
+            Git & GitHub
+        </li>
+    </ul>
+</section>
+
+
+        <!-- CV -->
+        <section id="cv">
+            <h2>Currículum Vitae</h2>
+            <div class="cv-box">
+
+                <h3>Contacto</h3>
+                <p>📍 Bogotá, Colombia</p>
+                <p>📞 318 480 6067</p>
+                <p>📧 jhojanestibenortiz@mail.com</p>
+
+                <h3>Perfil Profesional</h3>
+                <p>
+                    👨‍💻 Estudiante de Ingeniería de Software en constante aprendizaje.
+                    Interesado en backend, data engineering y ciberseguridad.
+                    Experiencia en estructuras de datos, algoritmos, grafos y optimización.
+                </p>
+
+                <h3>Experiencia Laboral</h3>
+                <strong>Movistar Telefónica</strong>
+                <p>2024 Enero – 2024 Julio</p>
+                <ul>
+                    <li>Soporte técnico de equipos de cómputo</li>
+                    <li>Monitoreo de servidores Linux</li>
+                    <li>Manejo de bases de datos</li>
+                    <li>Resolución de incidencias de red</li>
+                </ul>
+
+                <strong>KM2 Solutions</strong>
+                <p>2024 Agosto – Actual</p>
+                <ul>
+                    <li>Soporte financiero para bancos en USA</li>
+                    <li>Uso de herramientas ofimáticas</li>
+                    <li>Manejo de CRM Siebel</li>
+                    <li>Resolución de incidencias</li>
+                </ul>
+
+                <h3>Idiomas</h3>
+                <ul>
+                    <li>Español: Nativo</li>
+                    <li>Inglés: Intermedio</li>
+                </ul>
+
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section class="contact" id="contacto">
+            <h2>Contacto</h2>
+            <form class="contact-form">
+
+    <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Tu nombre completo"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="correo@ejemplo.com"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input 
+            type="tel" 
+            id="telefono" 
+            name="telefono" 
+            placeholder="+57 300 000 0000"
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="mensaje">Mensaje</label>
+        <textarea 
+            id="mensaje" 
+            name="mensaje" 
+            rows="4"
+            placeholder="Cuéntame en qué puedo ayudarte"
+            required
+        ></textarea>
+    </div>
+
+    <button type="submit" class="contact-btn">
+        Enviar mensaje
+    </button>
+
+</form>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>© 2026 - Jhojan Estiben Ortiz Bautista</p>
+    </footer>
+
+</body>
+</html>
