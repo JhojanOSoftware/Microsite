@@ -16,6 +16,90 @@
             --font-primary: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont,
                            "SF Pro Text", "Segoe UI", "Helvetica Neue", sans-serif;
             
+            /* ============================================
+               APPLE HIG TYPOGRAPHY SCALE
+               Role-based system for clear hierarchy
+               ============================================ */
+            
+            /* Large Title - Hero sections, main page heading */
+            --font-size-large-title: 40px;
+            --font-weight-large-title: 700;
+            --line-height-large-title: 1.1;
+            --letter-spacing-large-title: -0.022em;
+            
+            /* Title 1 - Section headings (h2) */
+            --font-size-title1: 32px;
+            --font-weight-title1: 600;
+            --line-height-title1: 1.15;
+            --letter-spacing-title1: -0.019em;
+            
+            /* Title 2 - Subsection headings */
+            --font-size-title2: 24px;
+            --font-weight-title2: 600;
+            --line-height-title2: 1.2;
+            --letter-spacing-title2: -0.016em;
+            
+            /* Title 3 - Card titles (h3), emphasized content */
+            --font-size-title3: 22px;
+            --font-weight-title3: 600;
+            --line-height-title3: 1.28;
+            --letter-spacing-title3: -0.012em;
+            
+            /* Headline - Standard emphasis */
+            --font-size-headline: 18px;
+            --font-weight-headline: 600;
+            --line-height-headline: 1.33;
+            --letter-spacing-headline: -0.008em;
+            
+            /* Body - Standard text */
+            --font-size-body: 16px;
+            --font-weight-body: 400;
+            --line-height-body: 1.5625;  /* 25px at 16px = optimal readability */
+            --letter-spacing-body: 0;
+            
+            /* Callout - Slightly emphasized body */
+            --font-size-callout: 15px;
+            --font-weight-callout: 400;
+            --line-height-callout: 1.53;  /* ~23px */
+            --letter-spacing-callout: 0;
+            
+            /* Subheadline - De-emphasized text */
+            --font-size-subheadline: 14px;
+            --font-weight-subheadline: 400;
+            --line-height-subheadline: 1.43;  /* 20px */
+            --letter-spacing-subheadline: 0;
+            
+            /* Footnote - Secondary information */
+            --font-size-footnote: 13px;
+            --font-weight-footnote: 400;
+            --line-height-footnote: 1.38;  /* 18px */
+            --letter-spacing-footnote: 0;
+            
+            /* Caption 1 - Metadata, timestamps */
+            --font-size-caption1: 12px;
+            --font-weight-caption1: 500;  /* Slightly heavier for small text */
+            --line-height-caption1: 1.33;  /* 16px */
+            --letter-spacing-caption1: 0.4px;
+            
+            /* Caption 2 - Smallest text */
+            --font-size-caption2: 11px;
+            --font-weight-caption2: 500;
+            --line-height-caption2: 1.27;  /* 14px */
+            --letter-spacing-caption2: 0.4px;
+            
+            /* ============================================
+               SPACING SYSTEM - 8px Base Unit
+               Consistent vertical rhythm
+               ============================================ */
+            --spacing-2xs: 4px;   /* 0.5 unit */
+            --spacing-xs: 8px;    /* 1 unit */
+            --spacing-sm: 16px;   /* 2 units */
+            --spacing-md: 24px;   /* 3 units */
+            --spacing-lg: 32px;   /* 4 units */
+            --spacing-xl: 40px;   /* 5 units */
+            --spacing-2xl: 48px;  /* 6 units */
+            --spacing-3xl: 64px;  /* 8 units */
+            
             /* Color Palette - Apple HIG with personal interaction focus */
             /* Base: Neutral grays for accessibility and elegance */
             --bg-main: #f5f5f7;
@@ -103,13 +187,14 @@
             flex-wrap: wrap;
         }
 
+        /* Navigation Links - Subheadline Role */
         nav a {
             position: relative;
             font-family: "SF Pro Display", "Inter", sans-serif;
-            font-size: 15px;
-            font-weight: 400;
-            letter-spacing: 0.2px;
-            color: #1d1d1f;
+            font-size: var(--font-size-subheadline);  /* 14px - slightly smaller */
+            font-weight: var(--font-weight-subheadline);  /* 400 */
+            letter-spacing: 0.1px;  /* Subtle tracking */
+            color: var(--text-primary);
             text-decoration: none;
             transition: all 0.25s ease;
             white-space: nowrap;
@@ -170,12 +255,12 @@
         }
 
         /* ============================================
-           PROFILE SECTION - Similar to prcv.html
-           Centered, generous spacing, clear hierarchy
+           PROFILE SECTION - Hero Typography
+           Large Title, Headline, Body hierarchy
            ============================================ */
         .profile {
             text-align: center;
-            padding: 80px 20px 70px;
+            padding: var(--spacing-3xl) var(--spacing-md) var(--spacing-xl);  /* 64px 24px 40px */
             background: linear-gradient(180deg, var(--bg-card), var(--bg-main));
         }
 
@@ -184,7 +269,7 @@
             height: 160px;
             border-radius: 50%;
             display: block;
-            margin: 0 auto 24px;
+            margin: 0 auto var(--spacing-md);  /* 24px */
             object-fit: cover;
             box-shadow: var(--shadow-md);
             transition: transform var(--transition-normal);
@@ -194,30 +279,38 @@
             transform: scale(1.05);
         }
 
+        /* Profile Name - Large Title Role
+           Principle: CLARITY - Hero element, maximum impact */
         .profile h1 {
-            font-size: 42px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin: 0 0 10px;
-            line-height: 1.2;
+            font-size: var(--font-size-large-title);  /* 40px */
+            font-weight: var(--font-weight-large-title);  /* 700 - boldest */
+            line-height: var(--line-height-large-title);  /* 1.1 - tight for impact */
+            letter-spacing: var(--letter-spacing-large-title);  /* -0.022em */
             color: var(--text-primary);
+            margin: 0 0 var(--spacing-xs);  /* 8px - tight spacing */
         }
 
+        /* Profile Role/Title - Headline Role
+           Principle: DEFERENCE - Supporting info, lighter weight */
         .profile h2 {
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin: 0 0 28px;
-            letter-spacing: -0.01em;
+            font-size: var(--font-size-headline);  /* 18px */
+            font-weight: 500;  /* Medium weight - not too heavy */
+            line-height: var(--line-height-headline);  /* 1.33 */
+            letter-spacing: var(--letter-spacing-headline);  /* -0.008em */
+            color: var(--text-secondary);  /* Softer color */
+            margin: 0 0 var(--spacing-md);  /* 24px */
         }
 
+        /* Profile Bio - Body Role
+           Principle: CLARITY - Comfortable reading, optimal line-height */
         .profile p {
-            font-size: 17px;
+            font-size: var(--font-size-body);  /* 16px - standard body */
+            font-weight: var(--font-weight-body);  /* 400 */
+            line-height: var(--line-height-body);  /* 1.5625 - optimal for reading */
+            letter-spacing: var(--letter-spacing-body);  /* 0 */
             color: var(--text-secondary);
-            max-width: 700px;
+            max-width: 60ch;  /* Optimal line length */
             margin: 0 auto;
-            line-height: 1.7;
-            letter-spacing: -0.00em;
         }
 
         /* ============================================
@@ -228,12 +321,19 @@
             padding: 60px 0;
         }
 
+        /* ============================================
+           TYPOGRAPHY ROLES - SEMANTIC USAGE
+           Apple HIG: Clear hierarchy through size, weight, spacing
+           ============================================ */
+        
+        /* Section Headings - Title 1 Role */
         section h2 {
-            font-size: 28px;
-            font-weight: 600;
-            margin: 0 0 30px;
-            letter-spacing: -0.02em;
+            font-size: var(--font-size-title1);  /* 32px */
+            font-weight: var(--font-weight-title1);  /* 600 */
+            line-height: var(--line-height-title1);  /* 1.15 */
+            letter-spacing: var(--letter-spacing-title1);  /* -0.019em */
             color: var(--text-primary);
+            margin: 0 0 var(--spacing-md);  /* 24px bottom */
         }
 
         /* ============================================
@@ -244,102 +344,375 @@
             padding: 40px 0;
         }
 
+        /* Apple HIG Search Bar - iOS Style
+           Principle: CLARITY + CONSISTENCY
+           Semantic background (secondarySystemBackground)
+           Internal magnifying glass icon
+           Subtle borders, prominent only on focus */
+        .projects-controls {
+            max-width: 1200px;
+            margin: 0 auto 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: var(--bg-hover);
+            border: 1.5px solid transparent;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            transition: all var(--transition-normal);
+            outline: none;
+        }
+
+        .search-bar::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .search-bar:focus {
+            background: #ffffff;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--text-tertiary);
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            padding: 0;
+        }
+
+        .clear-search.visible {
+            opacity: 0.6;
+        }
+
+        .clear-search:hover {
+            opacity: 1;
+            background: var(--text-secondary);
+        }
+
+        /* Filter Controls - Apple App Store Style
+           Principle: DEFERENCE - Controls are present but not dominant */
+        .filter-controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Filter Label - Subheadline Role */
+        .filter-label {
+            font-size: var(--font-size-subheadline);  /* 14px */
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1.5px solid var(--border-light);
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: var(--font-primary);
+        }
+
+        .filter-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+        }
+
+        .filter-btn:active {
+            transform: scale(0.96);
+        }
+
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);  /* 2 columns on desktop */
             gap: 32px;
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
         }
+        
+        /* Responsive: 1 column on tablet and mobile */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
+        /* Project Card - Apple HIG Refined
+           Principle: DEPTH - Layering through subtle shadows
+           Principle: CLARITY - Clean white surface, no visual noise
+           Fixed: Removed any potential gray tint, ensure pure white */
         .project-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-            border: none;
+            background: #ffffff; /* Pure white - not off-white */
+            border-radius: 16px; /* Slightly reduced for modern look */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 
+                        0 1px 3px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.04); /* Subtle definition */
             overflow: hidden;
-            transition: transform 0.2s ease-out, 
-                        box-shadow 0.2s ease-out;
+            transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), 
+                        box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1),
+                        border-color 0.2s ease-out;
             width: 100%;
             display: flex;
             flex-direction: column;
+            /* Apple HIG: Keyboard accessibility */
+            outline: none;
+        }
+
+        /* Focus State - Apple HIG Accessibility
+           Principle: ACCESSIBILITY - Keyboard navigation must be clear */
+        .project-card:focus-within {
+            border-color: var(--accent-primary);  /* Blue focus ring */
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.15),
+                        0 4px 12px rgba(0, 0, 0, 0.06), 
+                        0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
         .project-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px); /* Lift instead of scale */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.10), 
+                        0 2px 6px rgba(0, 0, 0, 0.06);
+            border-color: rgba(0, 102, 204, 0.2);  /* Stronger border on hover */
         }
 
-        /* Media container - Image section */
+        /* Active State - Apple HIG Tactile Feedback
+           Principle: RESPONSIVENESS - "Provide immediate feedback" */
+        .project-card:active {
+            transform: translateY(-2px) scale(0.995);  /* Subtle press effect */
+            transition-duration: 0.1s;  /* Faster for immediate response */
+        }
+
+        /* Media container - Image section
+           Apple HIG: 16:9 aspect ratio for project images
+           Principle: CLARITY - Images display cleanly without text overlay */
         .project-media {
             width: 100%;
-            height: 220px;
+            aspect-ratio: 16 / 9;  /* 16:9 ratio per Apple HIG */
             overflow: hidden;
-            background: #f5f5f7;
+            background: var(--bg-hover); /* Subtle placeholder while loading */
+            position: relative;
             flex-shrink: 0;
+            border-radius: 16px 16px 0 0;  /* Rounded top corners only */
         }
 
         .project-media img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s ease-out;
+            object-fit: cover; /* Prevents distortion, fills container */
+            object-position: center; /* Centers image content */
+            display: block; /* Removes inline spacing */
+            transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
+            font-size: 0; /* Hides alt text during load */
+            color: transparent; /* Hides broken image text */
         }
 
+        /* Subtle zoom on hover - Apple style interaction */
         .project-card:hover .project-media img {
-            transform: scale(1.05);
+            transform: scale(1.04); /* Reduced from 1.05 for subtlety */
+        }
+
+        /* Loading state - placeholder for images */
+        .project-media::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, 
+                var(--bg-hover) 8%, 
+                #ffffff 18%, 
+                var(--bg-hover) 33%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .project-media img[src=""]::before,
+        .project-media:empty::before {
+            opacity: 1;
+        }
+
+        @keyframes shimmer {
+            to { background-position: -200% 0; }
         }
 
         /* Body section - Text content */
         .project-body {
-            padding: 24px;
+            padding: var(--spacing-md);  /* 24px */
             display: flex;
             flex-direction: column;
             flex: 1;
+            gap: var(--spacing-sm);  /* 16px between elements */
         }
-
-        .project-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 0 0 8px;
-            letter-spacing: -0.01em;
-            color: #1d1d1f;
-            line-height: 1.3;
-        }
-
-        .project-date {
-            font-size: 13px;
-            font-weight: 500;
-            color: #6e6e73;
-            margin: 0 0 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .project-desc {
-            font-size: 15px;
-            color: #3a3a3c;
-            margin: 0 0 16px;
-            line-height: 1.5;
-            flex: 1;
-        }
-
-        /* Action buttons container */
-        .project-actions {
+        
+        /* Project Header - Title and Date on same line
+           Apple HIG: Clear hierarchy with date as metadata */
+        .project-header {
             display: flex;
-            gap: 12px;
-            margin-top: auto;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-xs);  /* 8px */
+            margin-bottom: var(--spacing-2xs);  /* 4px */
         }
 
+        /* Project Card Title - Title 3 Role
+           Principle: CLARITY - Dominant visual element in card
+           Apple HIG: Weight 700 for maximum prominence */
+        .project-card h3 {
+            font-size: var(--font-size-title3) !important;  /* 22px */
+            font-weight: 700 !important;
+            line-height: var(--line-height-title3) !important;  /* 1.28 */
+            letter-spacing: var(--letter-spacing-title3) !important;  /* -0.012em */
+            color: var(--text-primary) !important;  /* #1d1d1f */
+            margin: 0 !important;
+            transition: color 0.2s ease-out !important;
+            cursor: pointer !important;
+            flex: 1;  /* Take available space */
+        }
+
+        /* Title Hover State - Apple HIG Interactive Feedback
+           Principle: CLARITY - "Controls should look and behave in ways people expect" 
+           Using !important to ensure hover state works despite external CSS */
+        .project-card:hover h3 {
+            color: var(--accent-primary) !important;  /* #0066cc - Apple blue for interaction */
+        }
+
+        /* Project Date - Caption 1 Role
+           Apple HIG: Metadata uses tertiary color, displayed in header */
+        .project-date {
+            font-size: var(--font-size-caption1);  /* 12px */
+            font-weight: var(--font-weight-caption1);  /* 500 */
+            line-height: var(--line-height-caption1);  /* 1.33 */
+            letter-spacing: 0;
+            color: var(--text-tertiary);  /* #86868b - light gray */
+            margin: 0;
+            white-space: nowrap;  /* Prevent date from wrapping */
+            flex-shrink: 0;  /* Don't shrink date */
+        }
+
+        /* Project Description - Callout Role
+           Principle: CLARITY - Limited to 2 lines with ellipsis
+           Apple HIG: Comfortable reading, sufficient line-height */
+        .project-desc {
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: var(--font-weight-callout);  /* 400 */
+            line-height: var(--line-height-callout);  /* 1.53 */
+            letter-spacing: var(--letter-spacing-callout);  /* 0 */
+            color: var(--text-secondary);  /* #424245 */
+            margin: 0;
+            
+            /* Limit to 2 lines with ellipsis */
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;  /* Standard property for compatibility */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        /* Technology Tags - Apple HIG Chips/Pills
+           Principle: CLARITY - Visual categorization of technologies
+           Apple HIG: Subtle background, clear typography */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2xs);  /* 4px between chips */
+            margin: var(--spacing-xs) 0;  /* 8px top/bottom */
+        }
+        
+        .project-tag {
+            font-size: 11px;  /* Caption 2 size */
+            font-weight: 600;  /* Semibold for clarity */
+            line-height: 1.2;
+            letter-spacing: 0.02em;  /* Slight positive tracking */
+            text-transform: uppercase;  /* All caps for tag style */
+            
+            color: #007AFF;  /* System Blue */
+            background: rgba(0, 122, 255, 0.08);  /* 8% blue tint */
+            padding: 4px 10px;  /* Compact pill shape */
+            border-radius: 12px;  /* Fully rounded ends */
+            border: 1px solid rgba(0, 122, 255, 0.2);  /* Subtle border */
+            
+            white-space: nowrap;  /* Prevent wrapping within tag */
+            transition: all 0.15s ease-out;
+        }
+        
+        .project-tag:hover {
+            background: rgba(0, 122, 255, 0.15);
+            border-color: rgba(0, 122, 255, 0.4);
+        }
+
+        /* Action buttons container
+           Apple HIG: "Provide ample spacing between controls" */
+        .project-actions {
+            display: flex !important;
+            gap: var(--spacing-xs) !important;  /* 8px - Apple standard spacing */
+            margin-top: auto;  /* Push to bottom */
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+        }
+
+        /* Project card buttons - Apple HIG sizing
+           Primary button (.btn) with blue background
+           Secondary button (.btn-ghost) with outline */
         .project-actions .btn,
-        .project-actions a {
-            font-size: 14px;
+        .project-actions .btn-ghost {
+            flex: 1;  /* Equal width buttons */
+            min-width: 110px;
+            font-size: var(--font-size-subheadline);  /* 14px */
             padding: 10px 16px;
-            flex: 1;
-            min-width: 120px;
         }
 
         .project-card strong {
@@ -389,46 +762,57 @@
             gap: 16px;
         }
 
+        /* Experience Card Title - Title 3 Role
+           Principle: CLARITY - Prominent job title */
         .experience-card h3 {
-            font-size: 22px;
-            font-weight: 600;
+            font-size: var(--font-size-title3);  /* 22px */
+            font-weight: var(--font-weight-title3);  /* 600 */
+            line-height: var(--line-height-title3);  /* 1.28 */
+            letter-spacing: var(--letter-spacing-title3);  /* -0.012em */
+            color: var(--text-primary);
             margin: 0;
-            letter-spacing: -0.01em;
-            color: #000000;
         }
 
+        /* Experience Date - Caption 1 Role */
         .experience-date {
-            font-size: 14px;
-            font-weight: 500;
+            font-size: var(--font-size-caption1);  /* 12px */
+            font-weight: var(--font-weight-caption1);  /* 500 */
+            line-height: var(--line-height-caption1);  /* 1.33 */
+            letter-spacing: var(--letter-spacing-caption1);  /* 0.4px */
             color: var(--text-tertiary);
             white-space: nowrap;
         }
 
+        /* Experience Company - Callout Role */
         .experience-company {
-            font-size: 15px;
+            font-size: var(--font-size-callout);  /* 15px */
             font-weight: 600;
             color: var(--accent-primary);
-            margin: 8px 0 12px;
+            margin: var(--spacing-xs) 0 var(--spacing-sm);  /* 8px 0 16px */
         }
 
+        /* Experience Description - Callout Role */
         .experience-description {
-            font-size: 15px;
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: var(--font-weight-callout);  /* 400 */
+            line-height: var(--line-height-callout);  /* 1.53 */
             color: var(--text-secondary);
-            line-height: 1.6;
             margin: 0;
         }
 
         .experience-card ul {
             list-style: disc;
-            margin: 16px 0 0;
+            margin: var(--spacing-sm) 0 0;  /* 16px */
             padding-left: 20px;
         }
 
+        /* Experience List Items - Subheadline Role */
         .experience-card ul li {
-            font-size: 14px;
+            font-size: var(--font-size-subheadline);  /* 14px */
+            font-weight: var(--font-weight-subheadline);  /* 400 */
+            line-height: 1.71;  /* ~24px */
             color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 8px;
+            margin-bottom: var(--spacing-xs);  /* 8px */
         }
 
         .experience-card ul li:last-child {
@@ -436,26 +820,29 @@
         }
 
         /* ============================================
-           FORM STYLES - Similar to prcv.html
+           FORM STYLES - Typography consistency
            Clean inputs with proper focus states
            ============================================ */
         form div {
-            margin-bottom: 24px;
+            margin-bottom: var(--spacing-md);  /* 24px */
             display: flex;
             flex-direction: column;
             text-align: left;
         }
 
+        /* Form Labels - Caption 1 Role */
         .contact form label,
         .projects form label,
         form label {
-            font-size: 13px;
-            font-weight: 500;
+            font-size: var(--font-size-caption1);  /* 12px */
+            font-weight: 600;  /* Slightly heavier for small labels */
+            line-height: var(--line-height-caption1);  /* 1.33 */
+            letter-spacing: 0.4px;
+            color: var(--text-primary);
             margin-bottom: 6px;
-            color: #1d1d1f;
-            letter-spacing: 0.2px;
         }
 
+        /* Form Inputs - Callout Role */
         .contact form input,
         .contact form textarea,
         .projects form input,
@@ -463,8 +850,8 @@
         form input,
         form textarea {
             font-family: var(--font-primary);
-            font-size: 15px;
-            font-weight: 400;
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: var(--font-weight-callout);  /* 400 */
             letter-spacing: 0;
             padding: 14px 18px;
             border: 1px solid #d2d2d7;
@@ -503,44 +890,255 @@
         }
 
         /* ============================================
-           BUTTONS - Apple's pill-shaped buttons
-           Updated with primary accent color
+           BUTTONS - Apple HIG System Button Design
+           Principle: CLARITY + DEFERENCE
+           References: iOS HIG > Components > Buttons
            ============================================ */
+        
+        /* Primary Button (Filled) - High emphasis actions
+           Use: Main call-to-action (e.g., "View Project", "Submit")
+           Apple System Blue for trust and familiarity */
         .btn {
-            padding: 14px 24px;
-            border-radius: 14px;
+            /* Typography - Apple HIG: 15-17pt for buttons */
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: 600;  /* Semibold per Apple spec */
+            line-height: 1.2;
+            letter-spacing: -0.01em;  /* Subtle negative tracking */
+            
+            /* Colors - Apple System Blue */
+            background: #007AFF;  /* System Blue (light mode) */
+            color: #FFFFFF;  /* Always white on blue */
+            
+            /* Layout - 44pt minimum touch target per Apple */
+            padding: 11px 20px;  /* ~44px height total */
+            min-height: 44px;
             border: none;
-            background: #1d1d1f;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: 10px;  /* Apple's modern rounded corners */
+            
+            /* Behavior */
             cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0;
-            display: inline-block;
             text-decoration: none;
             text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* Transitions - Fast per Apple (0.15-0.2s) */
+            transition: background-color 0.15s ease-out,
+                        box-shadow 0.15s ease-out,
+                        transform 0.1s ease-out;
+            
+            /* Accessibility */
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
+        /* Primary Hover - Darker shade, NO scale transforms
+           Apple HIG: "Subtle changes, not dramatic effects" */
         .btn:hover {
-            background: #000000;
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            background: #0063CC;  /* Darker blue for hover */
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);  /* Subtle glow */
         }
 
+        /* Primary Active - Press state
+           Apple HIG: "Brief visual feedback" */
         .btn:active {
-            transform: scale(0.98);
+            background: #0051A8;  /* Even darker for press */
+            transform: scale(0.97);  /* Minimal scale-down */
+            box-shadow: 0 1px 3px rgba(0, 122, 255, 0.2);  /* Reduced shadow */
         }
 
+        /* Primary Focus - Keyboard accessibility
+           WCAG 2.1: Visible focus indicator required */
+        .btn:focus-visible {
+            outline: 3px solid rgba(0, 122, 255, 0.4);
+            outline-offset: 2px;
+        }
+
+        /* Primary Disabled State */
+        .btn:disabled,
+        .btn[aria-disabled="true"] {
+            background: #C7C7CC;  /* Apple's disabled gray */
+            color: #FFFFFF;
+            cursor: not-allowed;
+            opacity: 0.6;
+            box-shadow: none;
+        }
+
+        /* ============================================
+           SECONDARY BUTTON (Outline/Ghost)
+           Use: Less prominent actions (e.g., "View on GitHub")
+           Apple HIG: "Tinted button for secondary actions"
+           ============================================ */
         .btn-ghost {
+            /* Typography - Same as primary */
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+            
+            /* Colors - System Blue with transparency */
             background: transparent;
-            color: var(--accent-primary);
-            border: 1.5px solid var(--accent-primary);
+            color: #007AFF;  /* System Blue text */
+            border: 1.5px solid rgba(0, 122, 255, 0.5);  /* Semi-transparent border */
+            
+            /* Layout - Same dimensions as primary */
+            padding: 11px 20px;
+            min-height: 44px;
+            border-radius: 10px;
+            
+            /* Behavior */
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* Transitions */
+            transition: background-color 0.15s ease-out,
+                        border-color 0.15s ease-out,
+                        color 0.15s ease-out;
+            
+            /* Accessibility */
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
+        /* Secondary Hover - Light background tint
+           Apple HIG: "Fill with tinted background on hover" */
         .btn-ghost:hover {
-            background: var(--accent-light);
-            border-color: var(--accent-focus);
+            background: rgba(0, 122, 255, 0.08);  /* 8% blue tint */
+            border-color: rgba(0, 122, 255, 0.8);  /* Stronger border */
+            color: #0063CC;  /* Darker blue text */
+        }
+
+        /* Secondary Active */
+        .btn-ghost:active {
+            background: rgba(0, 122, 255, 0.15);  /* 15% blue tint */
+            border-color: #007AFF;
+            color: #0051A8;
+            transform: scale(0.97);
+        }
+
+        /* Secondary Focus */
+        .btn-ghost:focus-visible {
+            outline: 3px solid rgba(0, 122, 255, 0.4);
+            outline-offset: 2px;
+        }
+
+        /* Secondary Disabled */
+        .btn-ghost:disabled,
+        .btn-ghost[aria-disabled="true"] {
+            background: transparent;
+            color: #C7C7CC;
+            border-color: rgba(199, 199, 204, 0.5);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* ============================================
+           BUTTON OVERRIDES - Force Apple HIG compliance
+           Prevents external CSS from applying gradients
+           CRITICAL: Neutralizes styles.css decorative buttons
+           ============================================ */
+        
+        /* Disable gradient buttons class from external CSS */
+        .btn-icon {
+            display: none !important;  /* Hide old gradient buttons completely */
+        }
+
+        /* Force Apple HIG styles on all button elements */
+        .btn,
+        .btn-ghost,
+        .project-actions .btn,
+        .project-actions .btn-ghost,
+        .project-actions a.btn,
+        .project-actions a.btn-ghost {
+            /* ENFORCE APPLE HIG STYLES */
+            background-image: none !important;  /* NO gradients */
+            border-radius: 10px !important;     /* Apple's standard */
+            box-shadow: none !important;        /* No heavy shadows */
+            transform: none !important;         /* No default transforms */
+            
+            /* Force correct display */
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            visibility: visible !important;     /* Ensure always visible */
+            opacity: 1 !important;              /* Full opacity */
+            
+            /* Prevent circular shape */
+            width: auto !important;
+            height: auto !important;
+        }
+
+        /* Ensure hover states are Apple-compliant */
+        .project-actions .btn:hover,
+        .project-actions .btn-ghost:hover,
+        .project-actions a.btn:hover,
+        .project-actions a.btn-ghost:hover {
+            background-image: none !important;
+            transform: scale(0.97) !important;  /* Subtle press effect */
+        }
+
+        /* Force System Blue on primary buttons */
+        .project-actions .btn,
+        .project-actions a.btn {
+            background: #007AFF !important;
+            color: #FFFFFF !important;
+            border: none !important;
+        }
+        
+        .project-actions .btn:hover,
+        .project-actions a.btn:hover {
+            background: #0063CC !important;
+            color: #FFFFFF !important;
+        }
+        
+        /* Force System Blue on ghost buttons */
+        .project-actions .btn-ghost,
+        .project-actions a.btn-ghost {
+            background: transparent !important;
+            color: #007AFF !important;
+            border: 1.5px solid rgba(0, 122, 255, 0.5) !important;
+        }
+
+        .project-actions .btn-ghost:hover,
+        .project-actions a.btn-ghost:hover {
+            background: rgba(0, 122, 255, 0.08) !important;
+            border-color: rgba(0, 122, 255, 0.8) !important;
+            color: #0063CC !important;
+        }
+
+        /* ============================================
+           BUTTON ICONS - Apple HIG Icon Guidelines
+           Reference: HIG > Buttons and Controls
+           Icons should be clear, simple, and functional
+           ============================================ */
+        
+        /* Icon container within button */
+        .btn svg,
+        .btn-ghost svg {
+            width: 18px;  /* Apple HIG: 16-20px for button icons */
+            height: 18px;
+            margin-right: 6px;  /* 6-8px spacing per Apple spec */
+            flex-shrink: 0;  /* Prevent icon from shrinking */
+            fill: currentColor;  /* Inherit button text color */
+            stroke: currentColor;
+            vertical-align: middle;
+        }
+
+        /* Ensure button content is centered with icon */
+        .btn,
+        .btn-ghost {
+            gap: 6px;  /* Space between icon and text */
+        }
+
+        /* Icon-only buttons (if needed) */
+        .btn svg:only-child,
+        .btn-ghost svg:only-child {
+            margin-right: 0;
         }
 
         /* ============================================
@@ -563,12 +1161,14 @@
             margin-bottom: 0;
         }
 
+        /* Stack Category Title - Caption 1 Role (uppercase) */
         .stack-category-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #3a3a3c;
-            margin: 0 0 18px;
-            letter-spacing: 0.5px;
+            font-size: var(--font-size-caption1);  /* 12px */
+            font-weight: 700;  /* Bold for category headings */
+            line-height: var(--line-height-caption1);  /* 1.33 */
+            letter-spacing: 0.8px;  /* Wide tracking for uppercase */
+            color: var(--text-secondary);
+            margin: 0 0 var(--spacing-sm);  /* 16px */
             display: flex;
             align-items: center;
             gap: 10px;
@@ -592,6 +1192,7 @@
             gap: 12px;
         }
 
+        /* Skills List Items - Subheadline Role */
         .stack-list li {
             background: #ffffff;
             border: 1.5px solid #d5d5d7;
@@ -599,12 +1200,13 @@
             padding: 11px 16px;
             text-align: center;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.15s ease-out;
-            color: #1d1d1f;
-            opacity: 1;
+            font-size: var(--font-size-subheadline);  /* 14px */
+            font-weight: var(--font-weight-subheadline);  /* 400 */
+            line-height: var(--line-height-subheadline);  /* 1.43 */
+            color: var(--text-primary);
+            transition: all var(--transition-fast);
         }
+        
 
         .stack-list li:hover {
             border-color: var(--accent-primary);
@@ -691,6 +1293,320 @@
         }
 
         /* ============================================
+           EDUCATION SECTION - Academic Background Cards
+           Apple HIG: Clear hierarchy, generous spacing, subtle interactions
+           Principle: CLARITY + DEPTH
+           ============================================ */
+        
+        /* Education Grid Container */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-lg);  /* 32px */
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Education Card - Base Styling */
+        .education-card {
+            background: #ffffff;
+            border: 1.5px solid #e5e5e7;
+            border-radius: 16px;  /* Apple's modern rounded corners */
+            padding: var(--spacing-lg);  /* 32px */
+            
+            /* Transitions - Apple HIG: subtle and fast */
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.25s ease-out;
+            
+            /* Initial shadow */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            
+            /* Enable 3D transforms */
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        /* Education Card - Hover State (Depth Principle) */
+        .education-card:hover {
+            transform: translateY(-6px);  /* Subtle lift effect */
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);  /* Elevated shadow */
+            border-color: var(--accent-primary);  /* System blue accent */
+        }
+
+        /* Education Card - Active State */
+        .education-card:active {
+            transform: translateY(-3px);  /* Reduced lift on press */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Education Header - Flexbox Layout */
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-md);  /* 24px */
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Degree Title - Headline Role */
+        .education-card h3 {
+            font-size: var(--font-size-headline);  /* 17px */
+            font-weight: var(--font-weight-headline);  /* 600 */
+            line-height: var(--line-height-headline);  /* 1.29 */
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin: 0 0 6px 0;
+        }
+
+        /* Institution Name - Subheadline Role */
+        .education-institution {
+            font-size: var(--font-size-subheadline);  /* 14px */
+            font-weight: 600;  /* Semi-bold */
+            line-height: var(--line-height-subheadline);  /* 1.43 */
+            color: var(--accent-primary);  /* System blue */
+            margin: 0 0 3px 0;
+        }
+
+        /* Location - Caption 1 Role */
+        .education-location {
+            font-size: var(--font-size-caption1);  /* 12px */
+            font-weight: var(--font-weight-caption1);  /* 400 */
+            line-height: var(--line-height-caption1);  /* 1.33 */
+            color: var(--text-tertiary);
+            margin: 0;
+        }
+
+        /* Date Badge - Callout Role */
+        .education-date {
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: 600;
+            line-height: var(--line-height-callout);  /* 1.33 */
+            color: var(--text-secondary);
+            background: var(--accent-light);  /* Light blue background */
+            padding: 8px 14px;
+            border-radius: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 102, 204, 0.15);
+        }
+
+        /* Description - Body Role */
+        .education-description {
+            font-size: var(--font-size-body);  /* 16px */
+            font-weight: var(--font-weight-body);  /* 400 */
+            line-height: var(--line-height-body);  /* 1.5 */
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Certifications List Enhancements */
+        .education-card ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .education-card ul li {
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 102, 204, 0.1);
+            transition: all 0.2s ease-out;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .education-card ul li:hover {
+            background: rgba(0, 122, 255, 0.05);
+            border-color: var(--accent-primary);
+            transform: translateX(6px);
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.1);
+        }
+
+        .education-card ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Add subtle indicator for certifications */
+        .education-card ul li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: var(--accent-primary);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* ============================================
+           LANGUAGES SECTION - Language Proficiency Cards
+           Apple HIG: Visual progress indicators with clarity
+           Principle: CLARITY + FEEDBACK
+           ============================================ */
+        
+        /* Languages Grid Container */
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);  /* 32px */
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Language Card - Base Styling */
+        .language-card {
+            background: #ffffff;
+            border: 1.5px solid #e5e5e7;
+            border-radius: 16px;
+            padding: var(--spacing-lg);  /* 32px */
+            
+            /* Transitions */
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.25s ease-out;
+            
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        /* Language Card - Hover State */
+        .language-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent-primary);
+        }
+
+        .language-card:active {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Language Name - Title 3 Role */
+        .language-card h3 {
+            font-size: var(--font-size-title3);  /* 20px */
+            font-weight: var(--font-weight-title3);  /* 600 */
+            line-height: var(--line-height-title3);  /* 1.25 */
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin: 0 0 var(--spacing-xs) 0;  /* 8px */
+        }
+
+        /* Language Level Badge - Callout Role */
+        .language-level {
+            font-size: var(--font-size-callout);  /* 15px */
+            font-weight: 600;
+            line-height: var(--line-height-callout);  /* 1.33 */
+            color: var(--text-secondary);
+            margin: 0 0 var(--spacing-sm) 0;  /* 16px */
+            display: inline-block;
+            background: var(--accent-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 102, 204, 0.15);
+        }
+
+        /* Language Proficiency Bar Container */
+        .language-proficiency {
+            width: 100%;
+            height: 10px;
+            background: #e5e5e7;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: var(--spacing-sm) 0;  /* 16px */
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Language Proficiency Bar Fill - Animated */
+        .language-proficiency-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #34c759, #30d158);  /* Apple's green gradient */
+            border-radius: 6px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);  /* Smooth animation */
+            position: relative;
+            box-shadow: 0 1px 3px rgba(52, 199, 89, 0.3);
+        }
+
+        /* Add shine effect on proficiency bar */
+        .language-proficiency-fill::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 6px 6px 0 0;
+        }
+
+        /* Color coding by proficiency level */
+        /* Native (100%) - Green */
+        .language-card:nth-child(1) .language-proficiency-fill {
+            background: linear-gradient(90deg, #34c759, #30d158);
+            box-shadow: 0 1px 3px rgba(52, 199, 89, 0.3);
+        }
+
+        /* Advanced (90%) - Blue */
+        .language-card:nth-child(2) .language-proficiency-fill {
+            background: linear-gradient(90deg, #007AFF, #0063CC);
+            box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+        }
+
+        /* Beginner (20%) - Yellow/Orange */
+        .language-card:nth-child(3) .language-proficiency-fill {
+            background: linear-gradient(90deg, #ff9500, #ff8800);
+            box-shadow: 0 1px 3px rgba(255, 149, 0, 0.3);
+        }
+
+        /* Animate proficiency bars on page load */
+        @keyframes fillProgress {
+            from {
+                width: 0;
+            }
+        }
+
+        .language-proficiency-fill {
+            animation: fillProgress 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Language Description - Footnote Role */
+        .language-description {
+            font-size: var(--font-size-footnote);  /* 13px */
+            font-weight: var(--font-weight-footnote);  /* 400 */
+            line-height: var(--line-height-footnote);  /* 1.38 */
+            color: var(--text-tertiary);
+            margin: var(--spacing-sm) 0 0 0;  /* 16px top margin */
+        }
+
+        /* Hover effect on proficiency bar */
+        .language-card:hover .language-proficiency {
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12),
+                        0 0 0 2px var(--accent-light);
+        }
+
+        .language-card:hover .language-proficiency-fill {
+            filter: brightness(1.1);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .education-grid,
+            .languages-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);  /* 24px */
+            }
+
+            .education-header {
+                flex-direction: column;
+                gap: var(--spacing-sm);  /* 16px */
+            }
+
+            .education-date {
+                align-self: flex-start;
+            }
+        }
+
+        /* ============================================
            MAP SECTION - Refined styling
            ============================================ */
         #map {
@@ -769,7 +1685,9 @@
             }
 
             .project-card h3 {
-                font-size: 18px;
+                font-size: 18px !important;
+                font-weight: 700 !important;  /* Consistent bold weight */
+                color: var(--text-primary) !important;  /* Override external CSS */
             }
         }
 
@@ -783,16 +1701,18 @@
                 justify-content: center;
             }
 
+            /* Navigation - Slightly smaller but readable */
             nav a {
-                font-size: 13px;
+                font-size: var(--font-size-footnote);  /* 13px */
             }
 
             .profile {
-                padding: 60px 16px;
+                padding: var(--spacing-3xl) var(--spacing-sm);  /* 64px 16px */
             }
 
+            /* Profile Name - Scaled down but still prominent */
             .profile h1 {
-                font-size: 32px;
+                font-size: var(--font-size-title1);  /* 32px - maintain hierarchy */
             }
 
             .profile img {
@@ -800,9 +1720,45 @@
                 height: 140px;
             }
 
+            /* Section Headings - Title 2 Role on tablet */
             section h2 {
-                font-size: 24px;
-                margin-bottom: 24px;
+                font-size: var(--font-size-title2);  /* 24px */
+                margin-bottom: var(--spacing-md);  /* 24px */
+            }
+
+            /* Responsive Search & Filter Controls */
+            .projects-controls {
+                padding: 0 var(--spacing-sm);  /* 16px */
+            }
+
+            .search-bar-container {
+                max-width: 100%;
+            }
+
+            .search-bar {
+                font-size: var(--font-size-subheadline);  /* 14px */
+                padding: 10px 14px 10px 40px;
+            }
+
+            .search-icon {
+                width: 16px;
+                height: 16px;
+                left: 14px;
+            }
+
+            .filter-controls {
+                gap: var(--spacing-xs);  /* 8px */
+            }
+
+            .filter-label {
+                width: 100%;
+                text-align: center;
+                font-size: var(--font-size-footnote);  /* 13px */
+            }
+
+            .filter-btn {
+                font-size: var(--font-size-footnote);  /* 13px */
+                padding: 7px 14px;
             }
 
             .projects-grid {
@@ -822,26 +1778,30 @@
                 padding: 20px;
             }
 
+            /* Project Title - Headline Role on tablet */
             .project-card h3 {
-                font-size: 16px;
+                font-size: var(--font-size-headline) !important;  /* 18px - maintain hierarchy */
+                font-weight: 700 !important;  /* Keep bold emphasis on all devices */
+                color: var(--text-primary) !important;  /* Ensure dark text on tablet */
             }
 
+            /* Project Description - Subheadline Role */
             .project-desc {
-                font-size: 13px;
+                font-size: var(--font-size-subheadline);  /* 14px */
             }
 
             .contact {
-                padding: 40px 24px;
-                margin: 40px 16px 100px;
+                padding: var(--spacing-xl) var(--spacing-md);  /* 40px 24px */
+                margin: var(--spacing-xl) var(--spacing-sm) 100px;  /* 40px 16px 100px */
             }
 
             .skills li,
             .skills .stack-list li {
-                font-size: 13px;
+                font-size: var(--font-size-footnote);  /* 13px */
             }
 
             .stack-category-title {
-                font-size: 12px;
+                font-size: var(--font-size-caption1);  /* 12px */
                 margin-bottom: 14px;
                 gap: 6px;
             }
@@ -853,7 +1813,7 @@
 
             .skills .stack-list li {
                 padding: 9px 14px !important;
-                font-size: 13px !important;
+                font-size: var(--font-size-footnote) !important;  /* 13px */
             }
 
             #map {
@@ -863,24 +1823,56 @@
 
         @media (max-width: 480px) {
             .profile {
-                padding: 50px 16px;
+                padding: var(--spacing-xl) var(--spacing-sm);  /* 40px 16px */
             }
 
+            /* Profile Name - Title 2 Role on mobile */
             .profile h1 {
-                font-size: 26px;
+                font-size: var(--font-size-title2);  /* 24px - still prominent */
             }
 
+            /* Profile Subtitle - Footnote Role */
             .profile h2 {
-                font-size: 16px;
+                font-size: var(--font-size-body);  /* 16px */
             }
 
+            /* Section Headings - Smaller but clear */
             section h2 {
-                font-size: 20px;
+                font-size: 20px;  /* Between Title 3 and Headline */
+            }
+
+            /* Mobile Search & Filter - Stack vertically */
+            .projects-controls {
+                margin-bottom: var(--spacing-md);  /* 24px */
+                padding: 0 var(--spacing-xs);  /* 8px */
+            }
+
+            .search-bar {
+                font-size: var(--font-size-subheadline);  /* 14px */
+                padding: 9px 12px 9px 38px;
+                border-radius: 10px;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--spacing-xs);  /* 8px */
+            }
+
+            .filter-label {
+                font-size: var(--font-size-caption1);  /* 12px */
+                text-align: left;
+            }
+
+            .filter-btn {
+                width: 100%;
+                padding: 10px 16px;
+                font-size: var(--font-size-footnote);  /* 13px */
             }
 
             .projects-grid {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: var(--spacing-sm);  /* 16px */
             }
 
             .project-card {
@@ -888,55 +1880,66 @@
             }
 
             .project-media {
-                height: 160px;
+                aspect-ratio: 16 / 9;  /* Maintain 16:9 on mobile */
             }
 
             .project-body {
-                padding: 16px;
+                padding: var(--spacing-sm);  /* 16px */
             }
 
+            /* Project Title - Callout Role on mobile (still largest in card) */
             .project-card h3 {
-                font-size: 15px;
+                font-size: var(--font-size-callout) !important;  /* 15px */
+                font-weight: 700 !important;  /* Maximum emphasis maintained */
+                color: var(--text-primary) !important;  /* Ensure dark text on mobile */
                 margin-bottom: 6px;
             }
 
+            /* Project Date - Caption 2 Role */
             .project-date {
-                font-size: 12px;
-                margin-bottom: 8px;
+                font-size: var(--font-size-caption1);  /* 12px */
+                margin-bottom: var(--spacing-xs);  /* 8px */
             }
 
+            /* Project Description - Footnote Role */
             .project-desc {
-                font-size: 13px;
-                margin-bottom: 12px;
+                font-size: var(--font-size-footnote);  /* 13px */
+                margin-bottom: var(--spacing-sm);  /* 16px */
             }
 
             .project-actions {
-                gap: 8px;
+                gap: var(--spacing-xs);  /* 8px */
             }
 
+            /* Mobile button sizing - Maintain 44px touch target
+               Apple HIG: "Never reduce touch targets below 44pt" */
             .project-actions .btn,
+            .project-actions .btn-ghost,
             .project-actions a {
-                font-size: 12px;
-                padding: 8px 12px;
+                font-size: var(--font-size-footnote);  /* 13px */
+                padding: 10px 14px;  /* Still meets 44px minimum */
+                min-height: 44px;  /* Explicit touch target */
             }
 
+            /* Full-width buttons on mobile for easier tapping */
             .btn {
                 width: 100%;
                 padding: 14px 20px;
+                min-height: 50px;  /* Slightly larger for primary actions */
             }
 
             .contact {
                 border-radius: 16px;
-                padding: 30px 20px;
+                padding: var(--spacing-lg) 20px;  /* 32px 20px */
             }
 
             .stack-list {
                 grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-                gap: 8px;
+                gap: var(--spacing-xs);  /* 8px */
             }
 
             .skills .stack-list li {
-                font-size: 12px !important;
+                font-size: var(--font-size-caption1) !important;  /* 12px */
                 padding: 8px 12px !important;
             }
 
@@ -977,7 +1980,9 @@
     <nav role="navigation" aria-label="Navegación principal">
         <div class="nav-inner">
             <a href="#inicio">Inicio</a>
-            <a href="#laboral-experience">Experiencia Laboral</a>
+            <a href="#laboral-experience">Experiencia</a>
+            <a href="#educacion">Educación</a>
+            <a href="#idiomas">Idiomas</a>
             <a href="#proyectos-realizados">Proyectos</a>
             <a href="#skills">Habilidades</a>
             <a href="#cofetime">Ubicaciones</a>
@@ -1040,9 +2045,165 @@
             </div>
         </section>
         
+        <!-- ============================================
+             EDUCATION SECTION - Academic Background
+             Apple HIG: Clear academic credentials display
+             ============================================ -->
+        <section class="education panel" id="educacion" role="region" aria-labelledby="educacion-titulo">
+            <h2 id="educacion-titulo">Formación Académica</h2>
+            <div id="education-list" class="education-grid" aria-live="polite" aria-label="Lista de formación académica">
+                <!-- University Education -->
+                <div class="education-card">
+                    <div class="education-header">
+                        <div>
+                            <!-- Academic Icon SVG -->
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                                <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3Z" fill="#007AFF" opacity="0.2"/>
+                                <path d="M12 3L1 9L12 15L21 10.09V17H23V9L12 3ZM19.9 9L12 13.5L4.1 9L12 4.5L19.9 9Z" fill="#007AFF"/>
+                                <path d="M5 11.18V17.18L12 21L19 17.18V11.18L12 15L5 11.18Z" fill="#007AFF"/>
+                            </svg>
+                            <h3>Ingeniería de Software</h3>
+                            <p class="education-institution">Manuela Beltrán University</p>
+                            <p class="education-location">Bogotá, D.C., Colombia</p>
+                        </div>
+                        <span class="education-date">5to semestre</span>
+                    </div>
+                    <p class="education-description">
+                        Formación universitaria en ingeniería de software con enfoque en desarrollo de aplicaciones, 
+                        arquitectura de sistemas, metodologías ágiles y buenas prácticas de programación. 
+                        Desarrollo de competencias en análisis, diseño e implementación de soluciones tecnológicas escalables.
+                    </p>
+                </div>
+                
+                <!-- Technical Education -->
+                <div class="education-card">
+                    <div class="education-header">
+                        <div>
+                            <!-- Technical Education Icon SVG -->
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                                <rect x="3" y="4" width="18" height="16" rx="2" fill="#007AFF" opacity="0.2"/>
+                                <path d="M3 6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V6Z" stroke="#007AFF" stroke-width="2"/>
+                                <path d="M9 9L12 12L9 15" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13 15H16" stroke="#007AFF" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            <h3>Tecnólogo en Gestión de Redes de Datos</h3>
+                            <p class="education-institution">SENA - Servicio Nacional de Aprendizaje</p>
+                            <p class="education-location">Bogotá, D.C., Colombia</p>
+                        </div>
+                        <span class="education-date">Graduado Jul 2024</span>
+                    </div>
+                    <p class="education-description">
+                        Formación técnica especializada en administración de redes, protocolos de comunicación TCP/IP, 
+                        configuración de dispositivos de red, seguridad informática y gestión de infraestructura IT. 
+                        Competencias en diseño, implementación y mantenimiento de redes de datos empresariales.
+                    </p>
+                </div>
+                
+                <!-- Certifications Section -->
+                <div class="education-card" style="background: linear-gradient(135deg, rgba(0, 102, 204, 0.03), rgba(0, 102, 204, 0.01)); border-left: 4px solid var(--accent-primary);">
+                    <div>
+                        <!-- Certifications Icon SVG -->
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                            <circle cx="12" cy="9" r="6" fill="#007AFF" opacity="0.2"/>
+                            <path d="M12 3C8.68629 3 6 5.68629 6 9C6 12.3137 8.68629 15 12 15C15.3137 15 18 12.3137 18 9C18 5.68629 15.3137 3 12 3Z" stroke="#007AFF" stroke-width="2"/>
+                            <path d="M11 9L10 10L11.5 11.5L14 9" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 16L10.5 21L12 20L13.5 21L15 16" fill="#007AFF" opacity="0.2"/>
+                            <path d="M9 16L10.5 21L12 20L13.5 21L15 16" stroke="#007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <h3 style="font-size: var(--font-size-headline); margin-bottom: 16px;">Certificaciones Profesionales</h3>
+                        <ul style="margin: 0; padding-left: 20px; list-style: none;">
+                            <li style="margin-bottom: 12px; padding-left: 0; position: relative;">
+                                <strong style="color: var(--text-primary); display: block; font-size: 15px;">Ethical Hacker</strong>
+                                <span style="color: var(--accent-primary); font-size: 13px; font-weight: 600;">Cisco Networking Academy</span>
+                                <span style="color: var(--text-tertiary); font-size: 12px; display: block; margin-top: 2px;">Enero 2025</span>
+                            </li>
+                            <li style="margin-bottom: 12px; padding-left: 0;">
+                                <strong style="color: var(--text-primary); display: block; font-size: 15px;">Scrum Fundamentals Certified</strong>
+                                <span style="color: var(--text-tertiary); font-size: 12px; display: block; margin-top: 2px;">Marzo 2025</span>
+                            </li>
+                            <li style="margin-bottom: 12px; padding-left: 0;">
+                                <strong style="color: var(--text-primary); display: block; font-size: 15px;">RED HAT System Administration I (RH124)</strong>
+                                <span style="color: var(--accent-primary); font-size: 13px; font-weight: 600;">Red Hat</span>
+                                <span style="color: var(--text-tertiary); font-size: 12px; display: block; margin-top: 2px;">Marzo 2023</span>
+                            </li>
+                            <li style="margin-bottom: 12px; padding-left: 0;">
+                                <strong style="color: var(--text-primary); display: block; font-size: 15px;">Introduction to Cybersecurity</strong>
+                                <span style="color: var(--accent-primary); font-size: 13px; font-weight: 600;">Cisco Networking Academy</span>
+                                <span style="color: var(--text-tertiary); font-size: 12px; display: block; margin-top: 2px;">Abril 2023</span>
+                            </li>
+                            <li style="margin-bottom: 0; padding-left: 0;">
+                                <strong style="color: var(--text-primary); display: block; font-size: 15px;">Python Essentials 1</strong>
+                                <span style="color: var(--accent-primary); font-size: 13px; font-weight: 600;">Cisco Networking Academy</span>
+                                <span style="color: var(--text-tertiary); font-size: 12px; display: block; margin-top: 2px;">Mayo 2023</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             LANGUAGES SECTION - Language Proficiency
+             Apple HIG: Visual language skills display
+             ============================================ -->
+        <section class="languages panel" id="idiomas" role="region" aria-labelledby="idiomas-titulo">
+            <h2 id="idiomas-titulo">Idiomas</h2>
+            <div id="languages-list" class="languages-grid" aria-live="polite" aria-label="Lista de idiomas">
+                <div class="language-card">
+                    <!-- Spanish Language Icon -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                        <circle cx="12" cy="12" r="9" fill="#34c759" opacity="0.2"/>
+                        <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" stroke="#34c759" stroke-width="2"/>
+                        <path d="M3 12H21" stroke="#34c759" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 3C14.5 6 15.5 9 15.5 12C15.5 15 14.5 18 12 21C9.5 18 8.5 15 8.5 12C8.5 9 9.5 6 12 3Z" stroke="#34c759" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3>Español</h3>
+                    <p class="language-level"></p>
+                    <div class="language-proficiency" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-label="Spanish proficiency level: 100%">
+                        <div class="language-proficiency-fill" style="width: 100%;"></div>
+                    </div>
+                    <p class="language-description">Lengua materna, dominio completo en todos los contextos</p>
+                </div>
+                
+                <div class="language-card">
+                    <!-- English Language Icon -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                        <circle cx="12" cy="12" r="9" fill="#007AFF" opacity="0.2"/>
+                        <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" stroke="#007AFF" stroke-width="2"/>
+                        <path d="M3 12H21" stroke="#007AFF" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 3C14.5 6 15.5 9 15.5 12C15.5 15 14.5 18 12 21C9.5 18 8.5 15 8.5 12C8.5 9 9.5 6 12 3Z" stroke="#007AFF" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3>Inglés</h3>
+                    <p class="language-level">C1 - Certified (CEFR)</p>
+                    <div class="language-proficiency" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="English proficiency level: 90%">
+                        <div class="language-proficiency-fill" style="width: 90%;"></div>
+                    </div>
+                    <p class="language-description">Fluido en documentación técnica y comunicación con clientes</p>
+                </div>
+                
+                <div class="language-card">
+                    <!-- German Language Icon -->
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 12px; float: left;">
+                        <circle cx="12" cy="12" r="9" fill="#ff9500" opacity="0.2"/>
+                        <path d="M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" stroke="#ff9500" stroke-width="2"/>
+                        <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 3C14.5 6 15.5 9 15.5 12C15.5 15 14.5 18 12 21C9.5 18 8.5 15 8.5 12C8.5 9 9.5 6 12 3Z" stroke="#ff9500" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <h3>Portugués</h3>
+                    <p class="language-level">A1 - Beginner</p>
+                    <div class="language-proficiency" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" aria-label="German proficiency level: 20%">
+                        <div class="language-proficiency-fill" style="width: 20%;"></div>
+                    </div>
+                    <p class="language-description">Nivel básico, competencias elementales</p>
+                </div>
+            </div>
+        </section>
 
         <section class="projects panel" id="proyectos-realizados" role="region" aria-labelledby="proyectos-titulo">
             <h2 id="proyectos-titulo">Proyectos Realizados</h2>
+            
+           
+            
             <div id="projects-list" class="projects-grid" aria-live="polite" aria-label="Lista de proyectos"></div>
         </section>
 

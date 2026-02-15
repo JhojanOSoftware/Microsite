@@ -1,62 +1,214 @@
-/* Esta vaina carga y muestra los proyectos en el index.html */
+/* Apple HIG Project Loading with Search & Filter
+   Principles Applied:
+   - CLARITY: Immediate visual feedback on search/filter
+   - RESPONSIVENESS: Smooth transitions, no jarring updates
+   - FEEDBACK: Clear empty states and loading indicators
+*/
 (async function () {
   const API = 'http://127.0.0.1:8000/proyectos/';
   const container = document.getElementById('projects-list');
   if (!container) return;
+
+  // Store all projects for filtering
+  let allProjects = [];
+  let currentSort = 'recent';
+  let currentSearch = '';
 
   function safeText(t) {
     return String(t ?? '').trim();
   }
 
   // resuelve las imagenes dentro del html
-function resolveImageSrc(proj) {
-  let img = safeText(proj.imagen) || '';
-  if (/^https?:\/\//i.test(img)) return img;
-  return 'http://127.0.0.1:8000/images/' + img;  // 🔹 asegúrate que arme la URL completa
-}
-
+  function resolveImageSrc(proj) {
+    let img = safeText(proj.imagen) || '';
+    if (/^https?:\/\//i.test(img)) return img;
+    return 'http://127.0.0.1:8000/images/' + img;
+  }
 
   function makeCard(proj) {
     const div = document.createElement('article');
     div.className = 'project-card';
+    div.dataset.projectName = safeText(proj.nombre).toLowerCase();
+    div.dataset.projectDesc = safeText(proj.description).toLowerCase();
+    
     const title = safeText(proj.nombre);
     const desc = safeText(proj.description) || 'Descripción no disponible.';
     const imgSrc = resolveImageSrc(proj);
     const github = safeText(proj.linkgithub);
     const video = safeText(proj.linkvideo);
     const fecha = safeText(proj.fecha);
+    
+    // Extract technologies from description or use defaults
+    const getTechnologies = () => {
+      const techKeywords = {
+        'python': 'Python', 'mysql': 'MySQL', 'javascript': 'JavaScript',
+        'html': 'HTML', 'css': 'CSS', 'react': 'React', 'node': 'Node.js',
+        'uvicorn': 'UVICORN', 'fastapi': 'FastAPI', 'asgi': 'ASGI',
+        'pdf': 'PDF', 'api': 'API', 'rest': 'REST'
+      };
+      const foundTechs = [];
+      const searchText = (title + ' ' + desc).toLowerCase();
+      for (const [key, label] of Object.entries(techKeywords)) {
+        if (searchText.includes(key) && foundTechs.length < 4) {
+          foundTechs.push(label);
+        }
+      }
+      return foundTechs.length > 0 ? foundTechs : ['Desarrollo Web'];
+    };
+    const technologies = getTechnologies();
 
     div.innerHTML = `
       <div class="project-media">
-        <img loading="lazy" src="${imgSrc}" alt="${title}" onerror="this.src='Images/placeholder.png'">
+        <img loading="lazy" src="${imgSrc}" alt="${title}" onerror="this.src='Frontend/Images/placeholder.png'">
       </div>
       <div class="project-body">
-        <h3>${title}</h3>
-        <p class="project-date">${fecha}</p>
+        <div class="project-header">
+          <h3>${title}</h3>
+          <span class="project-date">${fecha}</span>
+        </div>
         <p class="project-desc">${desc}</p>
+        <div class="project-tags">
+          ${technologies.map(tech => `<span class="project-tag">${tech}</span>`).join('')}
+        </div>
         <div class="project-actions">
-          ${github ? `<a class="btn btn-ghost" href="${github}" target="_blank" rel="noopener noreferrer">GitHub</a>` : ''}
-          ${video ? `<a class="btn btn-ghost" href="${video}" target="_blank" rel="noopener noreferrer">Video</a>` : ''}
+          ${video ? `<a class="btn" href="${video}" target="_blank" rel="noopener noreferrer" aria-label="Ver demostración">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Ver Demo
+          </a>` : ''}
+          ${github ? `<a class="btn-ghost" href="${github}" target="_blank" rel="noopener noreferrer" aria-label="Ver código en GitHub">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            Código
+          </a>` : ''}
         </div>
       </div>
     `;
     return div;
   }
 
+  // Sort projects based on current filter
+  function sortProjects(projects, sortType) {
+    const sorted = [...projects];
+    switch (sortType) {
+      case 'recent':
+        return sorted.sort((a, b) => {
+          const dateA = new Date(a.fecha || '1970-01-01');
+          const dateB = new Date(b.fecha || '1970-01-01');
+          return dateB - dateA;
+        });
+      case 'oldest':
+        return sorted.sort((a, b) => {
+          const dateA = new Date(a.fecha || '1970-01-01');
+          const dateB = new Date(b.fecha || '1970-01-01');
+          return dateA - dateB;
+        });
+      case 'name':
+        return sorted.sort((a, b) => 
+          safeText(a.nombre).localeCompare(safeText(b.nombre))
+        );
+      default:
+        return sorted;
+    }
+  }
+
+  // Filter projects by search query
+  function filterProjects(projects, query) {
+    if (!query) return projects;
+    const lowerQuery = query.toLowerCase();
+    return projects.filter(proj => {
+      const title = safeText(proj.nombre).toLowerCase();
+      const desc = safeText(proj.description).toLowerCase();
+      return title.includes(lowerQuery) || desc.includes(lowerQuery);
+    });
+  }
+
+  // Render projects to DOM
+  function renderProjects() {
+    let filtered = filterProjects(allProjects, currentSearch);
+    let sorted = sortProjects(filtered, currentSort);
+
+    container.innerHTML = '';
+    
+    if (!sorted.length) {
+      const noResults = document.createElement('div');
+      noResults.style.cssText = 'grid-column: 1/-1; text-align: center; padding: 60px 20px;';
+      noResults.innerHTML = `
+        <p style="font-size: 18px; color: var(--text-secondary); margin: 0 0 8px;">
+          ${currentSearch ? 'No se encontraron proyectos' : 'No hay proyectos disponibles'}
+        </p>
+        ${currentSearch ? `<p style="font-size: 14px; color: var(--text-tertiary); margin: 0;">Intenta con otros términos de búsqueda</p>` : ''}
+      `;
+      container.appendChild(noResults);
+      return;
+    }
+
+    sorted.forEach(p => container.appendChild(makeCard(p)));
+  }
+
+  // Search functionality
+  const searchInput = document.getElementById('project-search');
+  const clearBtn = document.getElementById('clear-search');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.trim();
+      renderProjects();
+      
+      // Show/hide clear button
+      if (clearBtn) {
+        if (currentSearch) {
+          clearBtn.style.display = 'flex';
+          clearBtn.classList.add('visible');
+        } else {
+          clearBtn.classList.remove('visible');
+          setTimeout(() => clearBtn.style.display = 'none', 200);
+        }
+      }
+    });
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      currentSearch = '';
+      renderProjects();
+      clearBtn.classList.remove('visible');
+      setTimeout(() => clearBtn.style.display = 'none', 200);
+      searchInput.focus();
+    });
+  }
+
+  // Filter buttons
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active state
+      filterBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      
+      currentSort = btn.dataset.sort;
+      renderProjects();
+    });
+  });
+
+  // Initial load
   try {
     const res = await fetch(API);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
-    const list = Array.isArray(payload) ? payload : payload.data ?? [];
-    container.innerHTML = '';
-    if (!list.length) {
-      container.innerHTML = '<p class="muted">No hay proyectos disponibles.</p>';
-      return;
-    }
-    list.forEach(p => container.appendChild(makeCard(p)));
+    allProjects = Array.isArray(payload) ? payload : payload.data ?? [];
+    renderProjects();
   } catch (err) {
     console.error('Error fetching projects:', err);
-    container.innerHTML = '<p class="error">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
+    container.innerHTML = '<p class="error" style="grid-column: 1/-1; text-align: center; padding: 40px;">Error cargando proyectos. Verifica que la API esté corriendo en http://127.0.0.1:8000</p>';
   }
 })();
 
@@ -837,7 +989,13 @@ async function eliminarMapa(mapa_id) {
         <h3>${title}</h3>
         <p class="coffe-desc">${desc}</p>
         <div class="coffe-actions">
-          ${video ? `<a class="btn btn-ghost" href="${video}" target="_blank" rel="noopener noreferrer">Ver Video</a>` : ''}
+          ${video ? `<a class="btn btn-ghost" href="${video}" target="_blank" rel="noopener noreferrer" aria-label="Ver video sobre ${title}">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Ver Video
+          </a>` : ''}
         </div>
       </div>
     `;
